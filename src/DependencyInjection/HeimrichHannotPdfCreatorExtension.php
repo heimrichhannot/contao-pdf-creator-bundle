@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\DependencyInjection;
+namespace Heimrichhannot\PdfCreatorBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class HeimrichhannotContaoPdfCreatorExtension.
  */
-class HeimrichhannotContaoPdfCreatorExtension extends Extension
+class HeimrichHannotPdfCreatorExtension extends Extension
 {
     /**
      * @throws \Exception

@@ -35,7 +35,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Heimrichhannot\\ContaoPdfCreatorBundle\\": "src/"
+            "Heimrichhannot\\PdfCreatorBundle\\": "src/"
         },
         "classmap": [
             "src/Resources/contao"
@@ -48,6 +48,6 @@
         ]
     },
     "extra": {
-        "contao-manager-plugin": "Heimrichhannot\\ContaoPdfCreatorBundle\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Heimrichhannot\\PdfCreatorBundle\\ContaoManager\\Plugin"
     }
 }

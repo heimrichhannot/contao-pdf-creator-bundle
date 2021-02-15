@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\Model;
+namespace Heimrichhannot\PdfCreatorBundle\Model;
 
 use Contao\Model;
 

@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\Generator;
+namespace Heimrichhannot\PdfCreatorBundle\Generator;
 
 class PdfGeneratorContext
 {

@@ -6,12 +6,12 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\DataContainer;
+namespace Heimrichhannot\PdfCreatorBundle\DataContainer;
 
 use Contao\DC_Table;
-use Heimrichhannot\ContaoPdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
-use Heimrichhannot\ContaoPdfCreatorBundle\Model\PdfCreatorConfigModel;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
+use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
+use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 
 class PdfCreatorConfigContainer
 {

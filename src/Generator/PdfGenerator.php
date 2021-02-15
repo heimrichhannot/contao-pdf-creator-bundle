@@ -6,18 +6,18 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\Generator;
+namespace Heimrichhannot\PdfCreatorBundle\Generator;
 
 use Ausi\SlugGenerator\SlugGenerator;
-use Heimrichhannot\ContaoPdfCreatorBundle\Event\BeforeCreateLibraryInstanceEvent;
-use Heimrichhannot\ContaoPdfCreatorBundle\Event\BeforeOutputPdfCallbackEvent;
-use Heimrichhannot\ContaoPdfCreatorBundle\Exception\InvalidPdfGeneratorConfigurationException;
-use Heimrichhannot\ContaoPdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
-use Heimrichhannot\ContaoPdfCreatorBundle\Exception\PdfCreatorNotFoundException;
-use Heimrichhannot\ContaoPdfCreatorBundle\Model\PdfCreatorConfigModel;
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
 use HeimrichHannot\PdfCreator\BeforeOutputPdfCallback;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
+use Heimrichhannot\PdfCreatorBundle\Event\BeforeCreateLibraryInstanceEvent;
+use Heimrichhannot\PdfCreatorBundle\Event\BeforeOutputPdfCallbackEvent;
+use Heimrichhannot\PdfCreatorBundle\Exception\InvalidPdfGeneratorConfigurationException;
+use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
+use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorNotFoundException;
+use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PdfGenerator

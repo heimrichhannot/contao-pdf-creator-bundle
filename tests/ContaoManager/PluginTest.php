@@ -17,14 +17,14 @@ declare(strict_types=1);
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\Tests\ContaoManager;
+namespace Heimrichhannot\PdfCreatorBundle\Tests\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\DelegatingParser;
 use Contao\TestCase\ContaoTestCase;
-use Heimrichhannot\ContaoPdfCreatorBundle\ContaoManager\Plugin;
-use Heimrichhannot\ContaoPdfCreatorBundle\HeimrichhannotContaoPdfCreatorBundle;
+use Heimrichhannot\PdfCreatorBundle\ContaoManager\Plugin;
+use Heimrichhannot\PdfCreatorBundle\HeimrichHannotPdfCreatorBundle;
 
 /**
  * Class PluginTest.
@@ -51,7 +51,7 @@ class PluginTest extends ContaoTestCase
 
         $this->assertCount(1, $bundles);
         $this->assertInstanceOf(BundleConfig::class, $bundles[0]);
-        $this->assertSame(HeimrichhannotContaoPdfCreatorBundle::class, $bundles[0]->getName());
+        $this->assertSame(HeimrichHannotPdfCreatorBundle::class, $bundles[0]->getName());
         $this->assertSame([ContaoCoreBundle::class], $bundles[0]->getLoadAfter());
     }
 }

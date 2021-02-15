@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\ContaoPdfCreatorBundle\Event;
+namespace Heimrichhannot\PdfCreatorBundle\Event;
 
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
 use Symfony\Component\EventDispatcher\Event;
