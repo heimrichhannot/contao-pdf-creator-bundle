@@ -1,0 +1,53 @@
+{
+    "name": "heimrichhannot/contao-pdf-creator-bundle",
+    "description": "A generic pdf creation bundle",
+    "keywords": [
+        "contao",
+        "bundle",
+        "pdf"
+    ],
+    "type": "contao-bundle",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Thomas Könrer",
+            "email": "digitales@heimrich-hannot.de",
+            "homepage": "http://heimrich-hannot.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/heimrichhannot/contao-pdf-creator-bundle/issues",
+        "source": "https://github.com/heimrichhannot/contao-pdf-creator-bundle"
+    },
+    "require": {
+        "contao/core-bundle": "^4.4",
+        "heimrichhannot/pdf-creator": "dev-main",
+        "ausi/slug-generator": "^1.1"
+    },
+    "require-dev": {
+        "contao/easy-coding-standard": "^3.0",
+        "contao/manager-plugin": "^2.3",
+        "contao/test-case": "^4.0",
+        "phpunit/phpunit": "^8.4",
+        "symfony/http-client": "4.4.*",
+        "symfony/phpunit-bridge": "4.4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Heimrichhannot\\ContaoPdfCreatorBundle\\": "src/"
+        },
+        "classmap": [
+            "src/Resources/contao"
+        ],
+        "exclude-from-classmap": [
+            "src/Resources/contao/config",
+            "src/Resources/contao/dca",
+            "src/Resources/contao/languages",
+            "src/Resources/contao/templates"
+        ]
+    },
+    "extra": {
+        "contao-manager-plugin": "Heimrichhannot\\ContaoPdfCreatorBundle\\ContaoManager\\Plugin"
+    }
+}

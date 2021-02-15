@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+
+  Heimrichhannot\ContaoPdfCreatorBundle\Generator\PdfGenerator:
+    public: true
+
+  Heimrichhannot\ContaoPdfCreatorBundle\DataContainer\:
+    resource: '../../DataContainer/*'
+    public: true
