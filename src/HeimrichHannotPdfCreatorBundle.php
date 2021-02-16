@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Heimrichhannot\PdfCreatorBundle;
 
-use HeimrichHannot\PdfGenerationBundle\HeimrichHannotPdfGenerationBundle;
+use Heimrichhannot\PdfCreatorBundle\DependencyInjection\HeimrichHannotPdfCreatorExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -20,6 +20,6 @@ class HeimrichHannotPdfCreatorBundle extends Bundle
 {
     public function getContainerExtension()
     {
-        return new HeimrichHannotPdfGenerationBundle();
+        return new HeimrichHannotPdfCreatorExtension();
     }
 }

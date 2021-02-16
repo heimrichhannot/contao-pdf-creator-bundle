@@ -2,9 +2,14 @@ services:
   _defaults:
     autowire: true
 
-  Heimrichhannot\PdfCreatorBundle\Generator\PdfGenerator:
+  Heimrichhannot\PdfCreatorBundle\:
+    resource: '../../{DataContainer,Generator}/*'
+    exclude: '../../Generator/PdfGeneratorContext.php'
     public: true
 
-  Heimrichhannot\PdfCreatorBundle\DataContainer\:
-    resource: '../../DataContainer/*'
-    public: true
+  Heimrichhannot\PdfCreatorBundle\SyndicationType\PdfCreatorSyndicationType:
+    tags: ['huh.syndication_type.type']
+
+  Heimrichhannot\PdfCreatorBundle\EventSubscriber\:
+    resource: '../../EventSubscriber/*'
+    autoconfigure: true

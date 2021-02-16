@@ -16,6 +16,7 @@ use Contao\Model;
  * Class PdfCreatorConfigModel.
  *
  * @property string $type
+ * @property string $title
  * @property string $filename
  * @property string $orientation
  * @property string $outputMode
