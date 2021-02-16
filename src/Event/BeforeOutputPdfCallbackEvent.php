@@ -9,8 +9,9 @@
 namespace Heimrichhannot\PdfCreatorBundle\Event;
 
 use HeimrichHannot\PdfCreator\BeforeOutputPdfCallback;
+use Symfony\Component\EventDispatcher\Event;
 
-class BeforeOutputPdfCallbackEvent
+class BeforeOutputPdfCallbackEvent extends Event
 {
     /**
      * @var BeforeOutputPdfCallback

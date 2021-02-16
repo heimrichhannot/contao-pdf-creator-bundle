@@ -49,19 +49,19 @@ class PdfGenerator
             throw new PdfCreatorNotFoundException($configuration->type);
         }
 
-        $eventDispatch = $this->eventDispatcher;
+        $eventDispatcher = $this->eventDispatcher;
         $slugGenerator = new SlugGenerator();
 
-        $type->setBeforeCreateInstanceCallback(function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatch) {
+        $type->setBeforeCreateInstanceCallback(function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatcher) {
             /* @noinspection PhpParamsInspection */
             /* @noinspection PhpMethodParametersCountMismatchInspection */
-            $eventDispatch->dispatch(BeforeCreateLibraryInstanceEvent::class, new BeforeCreateLibraryInstanceEvent($callback));
+            $eventDispatcher->dispatch(BeforeCreateLibraryInstanceEvent::class, new BeforeCreateLibraryInstanceEvent($callback));
         });
 
-        $type->setBeforeOutputPdfCallback(function (BeforeOutputPdfCallback $callback) use ($eventDispatch) {
+        $type->setBeforeOutputPdfCallback(function (BeforeOutputPdfCallback $callback) use ($eventDispatcher) {
             /* @noinspection PhpParamsInspection */
             /* @noinspection PhpMethodParametersCountMismatchInspection */
-            $eventDispatch->dispatch(BeforeOutputPdfCallbackEvent::class, new BeforeOutputPdfCallbackEvent($callback));
+            $eventDispatcher->dispatch(BeforeOutputPdfCallbackEvent::class, new BeforeOutputPdfCallbackEvent($callback));
         });
 
         $filename = str_replace(['%title'], [$slugGenerator->generate($context->getTitle())], $configuration->filename);
