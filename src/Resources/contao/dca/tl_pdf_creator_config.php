@@ -6,9 +6,6 @@
  * @license LGPL-3.0-or-later
  */
 
-/*
- * Table tl_pdf_creator_config
- */
 $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
     'config' => [
         'dataContainer' => 'Table',
@@ -17,11 +14,6 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
             'keys' => [
                 'id' => 'primary',
             ],
-        ],
-    ],
-    'edit' => [
-        'buttons_callback' => [
-            ['tl_pdf_creator_config', 'buttonsCallback'],
         ],
     ],
     'list' => [
