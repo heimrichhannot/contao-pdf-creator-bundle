@@ -21,9 +21,11 @@
         "source": "https://github.com/heimrichhannot/contao-pdf-creator-bundle"
     },
     "require": {
+        "ausi/slug-generator": "^1.1",
         "contao/core-bundle": "^4.4",
+        "heimrichhannot/contao-multi-column-editor-bundle": "^2.12",
         "heimrichhannot/pdf-creator": "dev-main",
-        "ausi/slug-generator": "^1.1"
+        "psr/log": "1.0"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^3.0",

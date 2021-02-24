@@ -21,6 +21,11 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
 
 Select PDF syndication and choose the pdf creator setting you want for export.
 
+### Logging
+
+To get enhanced debug information while creating pdfs, you can enter the contao dev mode. 
+In dev mode, pdf creator bundle save all logs created by the pdf library (if the library supports PSR-3 logging) to a huh_pdf_creator-[DATE].log file.
+
 ## Developer
 
 ### Add pdf creator to your bundle

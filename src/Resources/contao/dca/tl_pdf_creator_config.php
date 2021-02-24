@@ -6,15 +6,10 @@
  * @license LGPL-3.0-or-later
  */
 
-use Contao\Backend;
-use Contao\DC_Table;
-use Contao\Input;
-
 /*
  * Table tl_pdf_creator_config
  */
 $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
-    // Config
     'config' => [
         'dataContainer' => 'Table',
         'enableVersioning' => true,
@@ -73,16 +68,9 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
             ],
         ],
     ],
-    // Palettes
     'palettes' => [
-        '__selector__' => ['addSubpalette'],
-        'default' => '{first_legend},title,type,filename,orientation,outputMode,format',
+        'default' => '{first_legend},title,type,filename,orientation,outputMode,format,fonts,pageMargins,masterTemplate',
     ],
-    // Subpalettes
-    'subpalettes' => [
-        'addSubpalette' => 'textareaField',
-    ],
-    // Fields
     'fields' => [
         'id' => [
             'sql' => 'int(10) unsigned NOT NULL auto_increment',
@@ -166,78 +154,59 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
             'eval' => ['mandatory' => true, 'maxlength' => 64, 'tl_class' => 'w50'],
             'sql' => "varchar(64) NOT NULL default ''",
         ],
-//
-//        'selectField'    => array(
-//            'inputType' => 'select',
-//            'exclude'   => true,
-//            'search'    => true,
-//            'filter'    => true,
-//            'sorting'   => true,
-//            'reference' => $GLOBALS['TL_LANG']['tl_pdf_creator_config'],
-//            'options'   => array('firstoption', 'secondoption'),
-//            //'foreignKey'            => 'tl_user.name',
-//            //'options_callback'      => array('CLASS', 'METHOD'),
-//            'eval'      => array('includeBlankOption' => true, 'tl_class' => 'w50'),
-//            'sql'       => "varchar(255) NOT NULL default ''",
-//            //'relation'  => array('type' => 'hasOne', 'load' => 'lazy')
-//        ),
-//        'checkboxField'  => array(
-//            'inputType' => 'select',
-//            'exclude'   => true,
-//            'search'    => true,
-//            'filter'    => true,
-//            'sorting'   => true,
-//            'reference' => $GLOBALS['TL_LANG']['tl_pdf_creator_config'],
-//            'options'   => array('firstoption', 'secondoption'),
-//            //'foreignKey'            => 'tl_user.name',
-//            //'options_callback'      => array('CLASS', 'METHOD'),
-//            'eval'      => array('includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'),
-//            'sql'       => "varchar(255) NOT NULL default ''",
-//            //'relation'  => array('type' => 'hasOne', 'load' => 'lazy')
-//        ),
-//        'multitextField' => array(
-//            'inputType' => 'text',
-//            'exclude'   => true,
-//            'search'    => true,
-//            'filter'    => true,
-//            'sorting'   => true,
-//            'eval'      => array('multiple' => true, 'size' => 4, 'decodeEntities' => true, 'tl_class' => 'w50'),
-//            'sql'       => "varchar(255) NOT NULL default ''"
-//        ),
-//        'addSubpalette'  => array(
-//            'exclude'   => true,
-//            'inputType' => 'checkbox',
-//            'eval'      => array('submitOnChange' => true, 'tl_class' => 'w50 clr'),
-//            'sql'       => "char(1) NOT NULL default ''"
-//        ),
-//        'textareaField'  => array(
-//            'inputType' => 'textarea',
-//            'exclude'   => true,
-//            'search'    => true,
-//            'filter'    => true,
-//            'sorting'   => true,
-//            'eval'      => array('rte' => 'tinyMCE', 'tl_class' => 'clr'),
-//            'sql'       => 'text NOT NULL'
-//        )
+        'fonts' => [
+            'inputType' => 'multiColumnEditor',
+            'eval' => [
+                'multiColumnEditor' => [
+                    'minRowCount' => 0,
+                    'fields' => [
+                        'filepath' => [
+                            'inputType' => 'text',
+                            'eval' => ['mandatory' => true],
+                        ],
+                        'family' => [
+                            'inputType' => 'text',
+                            'eval' => ['mandatory' => true],
+                        ],
+                        'style' => [
+                            'inputType' => 'text',
+                            'eval' => ['mandatory' => true],
+                        ],
+                        'weight' => [
+                            'inputType' => 'text',
+                            'eval' => ['mandatory' => true],
+                        ],
+                    ],
+                ],
+            ],
+            'sql' => 'blob NULL',
+        ],
+        'pageMargins' => [
+            'exclude' => true,
+            'inputType' => 'trbl',
+            'default' => [
+                'bottom' => '15',
+                'left' => '15',
+                'right' => '15',
+                'top' => '15',
+                'unit' => 'mm',
+            ],
+            'options' => [
+                'mm',
+            ],
+            'eval' => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+            'sql' => "varchar(128) NOT NULL default ''",
+        ],
+        'masterTemplate' => [
+            'inputType' => 'fileTree',
+            'exclude' => true,
+            'eval' => [
+                'filesOnly' => true,
+                'extensions' => 'pdf',
+                'fieldType' => 'radio',
+                'tl_class' => 'w50 clr',
+            ],
+            'sql' => 'binary(16) NULL',
+        ],
     ],
 ];
-
-/**
- * Class tl_pdf_creator_config.
- */
-class tl_pdf_creator_config extends Backend
-{
-    /**
-     * @param $arrButtons
-     *
-     * @return mixed
-     */
-    public function buttonsCallback($arrButtons, DC_Table $dc)
-    {
-        if ('edit' === Input::get('act')) {
-            $arrButtons['customButton'] = '<button type="submit" name="customButton" id="customButton" class="tl_submit customButton" accesskey="x">'.$GLOBALS['TL_LANG']['tl_pdf_creator_config']['customButton'].'</button>';
-        }
-
-        return $arrButtons;
-    }
-}

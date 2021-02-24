@@ -9,6 +9,8 @@
 namespace Heimrichhannot\PdfCreatorBundle\Generator;
 
 use Ausi\SlugGenerator\SlugGenerator;
+use Contao\FilesModel;
+use Contao\StringUtil;
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
 use HeimrichHannot\PdfCreator\BeforeOutputPdfCallback;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
@@ -18,7 +20,9 @@ use Heimrichhannot\PdfCreatorBundle\Exception\InvalidPdfGeneratorConfigurationEx
 use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
 use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorNotFoundException;
 use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class PdfGenerator
 {
@@ -26,13 +30,28 @@ class PdfGenerator
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
+    /**
+     * @var string
+     */
+    protected $projectFolder;
+    /**
+     * @var LoggerInterface
+     */
+    protected $pdfInstanceLog;
+    /**
+     * @var KernelInterface
+     */
+    protected $kernel;
 
     /**
      * PdfGenerator constructor.
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher, string $projectFolder, LoggerInterface $pdfInstanceLog, KernelInterface $kernel)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->projectFolder = $projectFolder;
+        $this->pdfInstanceLog = $pdfInstanceLog;
+        $this->kernel = $kernel;
     }
 
     public function generate(string $htmlContent, int $configuration, PdfGeneratorContext $context): void
@@ -47,6 +66,10 @@ class PdfGenerator
 
         if (!$type) {
             throw new PdfCreatorNotFoundException($configuration->type);
+        }
+
+        if ($this->kernel->isDebug()) {
+            $type->setLogger($this->pdfInstanceLog);
         }
 
         $eventDispatcher = $this->eventDispatcher;
@@ -79,6 +102,28 @@ class PdfGenerator
             throw new InvalidPdfGeneratorConfigurationException('Invalid pdf format given.');
         } else {
             $type->setFormat($configuration->format);
+        }
+
+        $fonts = StringUtil::deserialize($configuration->fonts, true);
+
+        if (!empty(array_filter($fonts))) {
+            foreach ($fonts as $font) {
+                if (file_exists($this->projectFolder.\DIRECTORY_SEPARATOR.$font['filepath'])) {
+                    $type->addFont($this->projectFolder.\DIRECTORY_SEPARATOR.$font['filepath'], $font['family'], $font['style'], $font['weight']);
+                }
+            }
+        }
+
+        $margins = StringUtil::deserialize($configuration->pageMargins, true);
+
+        if (!empty(array_filter($margins))) {
+            $type->setMargins($margins['top'], $margins['right'], $margins['bottom'], $margins['left']);
+        }
+
+        if ($configuration->masterTemplate && $file = FilesModel::findByUuid($configuration->masterTemplate)) {
+            if (file_exists($this->projectFolder.\DIRECTORY_SEPARATOR.'web/'.$file->path)) {
+                $type->setTemplateFilePath($this->projectFolder.\DIRECTORY_SEPARATOR.$file->path);
+            }
         }
 
         $type->setHtmlContent($htmlContent);

@@ -1,0 +1,11 @@
+monolog:
+  channels: ['huh_pdf_creator_instance_log']
+  handlers:
+    main:
+      channels: ['!huh_pdf_creator_instance_log']
+    huh_pdf_creator_instance_log:
+      type: rotating_file
+      path: "%kernel.logs_dir%/huh_pdf_creator.log"
+      level: debug
+      max_files: 3
+      channels: ['huh_pdf_creator_instance_log']

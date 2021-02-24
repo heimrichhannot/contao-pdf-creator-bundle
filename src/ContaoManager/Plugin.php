@@ -14,12 +14,14 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use Heimrichhannot\PdfCreatorBundle\HeimrichHannotPdfCreatorBundle;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
 /**
  * Class Plugin.
  */
-class Plugin implements BundlePluginInterface
+class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
     /**
      * @return array
@@ -30,5 +32,10 @@ class Plugin implements BundlePluginInterface
             BundleConfig::create(HeimrichHannotPdfCreatorBundle::class)
                 ->setLoadAfter([ContaoCoreBundle::class]),
         ];
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    {
+        $loader->load('@HeimrichHannotPdfCreatorBundle/Resources/config/config.yml');
     }
 }

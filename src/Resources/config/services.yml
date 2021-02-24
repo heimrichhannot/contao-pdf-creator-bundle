@@ -1,6 +1,9 @@
 services:
   _defaults:
     autowire: true
+    bind:
+      $projectFolder: '%kernel.project_dir%'
+      $pdfInstanceLog: "@monolog.logger.huh_pdf_creator_instance_log"
 
   Heimrichhannot\PdfCreatorBundle\:
     resource: '../../{DataContainer,Generator}/*'

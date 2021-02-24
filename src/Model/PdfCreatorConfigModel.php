@@ -21,6 +21,9 @@ use Contao\Model;
  * @property string $orientation
  * @property string $outputMode
  * @property string $format
+ * @property string $fonts
+ * @property string $pageMargins
+ * @property string $masterTemplate
  */
 class PdfCreatorConfigModel extends Model
 {
