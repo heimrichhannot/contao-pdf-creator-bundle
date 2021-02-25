@@ -15,6 +15,18 @@ use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 
 class PdfCreatorConfigContainer
 {
+    public function onLabelCallback($row, $label, $dc, $args): array
+    {
+        $label .= ' <span style="color:#b3b3b3; padding-left:3px; display: inline;">['
+            .($GLOBALS['TL_LANG']['tl_pdf_creator_config']['type'][$row['type']] ?: $row['type'])
+            .', '.$row['format']
+            .', '.($GLOBALS['TL_LANG']['tl_pdf_creator_config']['orientation'][$row['orientation']] ?: $row['orientation'])
+            .', '.($GLOBALS['TL_LANG']['tl_pdf_creator_config']['outputMode'][$row['outputMode']] ?: $row['outputMode'])
+            .']</span>';
+
+        return [$label];
+    }
+
     public function onTypeOptionsCallback($dc): array
     {
         return PdfCreatorFactory::getTypes();

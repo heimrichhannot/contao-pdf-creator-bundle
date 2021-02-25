@@ -87,7 +87,11 @@ class PdfGenerator
             $eventDispatcher->dispatch(BeforeOutputPdfCallbackEvent::class, new BeforeOutputPdfCallbackEvent($callback));
         });
 
-        $filename = str_replace(['%title'], [$slugGenerator->generate($context->getTitle())], $configuration->filename);
+        $filename = str_replace(
+            ['%title%'],
+            [$slugGenerator->generate($context->getTitle())],
+            $configuration->filename
+        );
         $type->setFilename($filename);
 
         $type->setOrientation($configuration->orientation);
