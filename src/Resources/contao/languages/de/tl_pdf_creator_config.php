@@ -35,7 +35,7 @@ $lang['type'] = [
 $lang['filename'] = ['Dateiname', 'Geben Sie einen Dateinamen für die zu erzeugenden PDF-Dateien an. Sie können den Platzhalter %title% verwenden, um den Titel des zu exportierenden Inhaltes im Dateinamen zu erhalten.'];
 $lang['orientation'] = [
     0 => 'Seiten-Orientierung',
-    1 => 'Geben Sie einen Dateinamen für die zu erzeugenden PDF-Dateien an. Sie können den Platzhalter %title% verwenden, um den Titel des zu exportierenden Inhaltes im Dateinamen zu erhalten.',
+    1 => 'Wählen Sie die Seitenorientierung aus.',
     \HeimrichHannot\PdfCreator\AbstractPdfCreator::ORIENTATION_LANDSCAPE => 'Querformat',
     \HeimrichHannot\PdfCreator\AbstractPdfCreator::ORIENTATION_PORTRAIT => 'Hochformat',
 ];
@@ -51,7 +51,7 @@ $lang['format'] = ['Seitenformat', 'Geben Sie das Seitenformat an. Dies kann ein
 $lang['fonts'] = [
     0 => 'Schriftarten',
     1 => 'Geben Sie hier alle Schriftarten an, welche im Dokument verwendent werden.',
-    'filepath' => ['Pfad', 'Geben Sie hier den Pfad zur Font-Datei relativ zu Projekt-Pfad an.'],
+    'filepath' => ['Datei-Pfad', 'Geben Sie hier den Pfad zur Font-Datei relativ zu Projekt-Pfad an.'],
     'family' => ['Schrift-Familie', 'Geben Sie den Namen der Schriftfamilie (font-family) an.'],
     'style' => ['Schrift-Stil', 'Geben Sie hier den Schrift-Stil (font-style) der Font-Datei an.'],
     'weight' => ['Schrift-Stärke', 'Geben Sie hier die Stärke der Schrift (font-weight) an.'],

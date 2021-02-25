@@ -6,4 +6,4 @@
  * @license LGPL-3.0-or-later
  */
 
-$GLOBALS['TL_LANG']['MOD']['pdf_creator_config'] = ['PDF Konfigurationen', ''];
+$GLOBALS['TL_LANG']['MOD']['pdf_creator_config'] = ['PDF Configurations', ''];
