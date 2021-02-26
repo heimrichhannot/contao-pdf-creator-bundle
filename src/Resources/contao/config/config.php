@@ -6,6 +6,8 @@
  * @license LGPL-3.0-or-later
  */
 
+use Heimrichhannot\PdfCreatorBundle\EventListener\Contao\LoadDataContainerListener;
+use Heimrichhannot\PdfCreatorBundle\EventListener\Contao\PrintArticleAsPdfListener;
 use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 
 /*
@@ -14,6 +16,12 @@ use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 $GLOBALS['BE_MOD']['system']['pdf_creator_config'] = [
     'tables' => ['tl_pdf_creator_config'],
 ];
+
+/*
+ * Hooks
+ */
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [LoadDataContainerListener::class, '__invoke'];
+$GLOBALS['TL_HOOKS']['printArticleAsPdf'][] = [PrintArticleAsPdfListener::class, '__invoke'];
 
 /*
  * Models

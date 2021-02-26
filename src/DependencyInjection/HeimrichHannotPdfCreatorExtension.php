@@ -31,5 +31,9 @@ class HeimrichHannotPdfCreatorExtension extends Extension
         );
 
         $loader->load('services.yml');
+
+        $configuration = new Configuration();
+        $bundleConfig = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('huh_pdf_creator', $bundleConfig);
     }
 }

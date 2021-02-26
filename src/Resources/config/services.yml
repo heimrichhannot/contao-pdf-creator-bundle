@@ -4,10 +4,15 @@ services:
     bind:
       $projectFolder: '%kernel.project_dir%'
       $pdfInstanceLog: "@monolog.logger.huh_pdf_creator_instance_log"
+      $bundleConfig: '%huh_pdf_creator%'
 
   Heimrichhannot\PdfCreatorBundle\:
     resource: '../../{DataContainer,Generator}/*'
     exclude: '../../Generator/PdfGeneratorContext.php'
+    public: true
+
+  Heimrichhannot\PdfCreatorBundle\EventListener\Contao\:
+    resource: '../../EventListener/Contao/*'
     public: true
 
   Heimrichhannot\PdfCreatorBundle\SyndicationType\PdfCreatorSyndicationType:

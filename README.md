@@ -12,8 +12,11 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
 
 ### Setup
 
-1. Install the pdf library you want to use (currently only mpdf 7 or 8 are supported, see [PDF Creator library](https://github.com/heimrichhannot/pdf-creator)) for more information
-1. Install bundle with composer or contao manager
+1. Install the pdf library you want to use (currently mpdf and tcpdf are supported, see [PDF Creator library](https://github.com/heimrichhannot/pdf-creator)) for more information
+1. Install bundle with composer or contao manager 
+   
+        composer require heimrichhannot/contao-pdf-creator-bundle
+   
 1. Update database
 1. Create a pdf configuration in contao backend with system -> pdf configuration
 
