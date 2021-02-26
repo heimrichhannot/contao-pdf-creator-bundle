@@ -18,6 +18,9 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
                 'id' => 'primary',
             ],
         ],
+        'onload_callback' => [
+            [PdfCreatorConfigContainer::class, 'onLoadCallback'],
+        ],
     ],
     'list' => [
         'sorting' => [
