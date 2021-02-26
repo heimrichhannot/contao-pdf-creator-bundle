@@ -24,30 +24,13 @@
         "ausi/slug-generator": "^1.1",
         "contao/core-bundle": "^4.4",
         "heimrichhannot/contao-multi-column-editor-bundle": "^2.12",
-        "heimrichhannot/pdf-creator": "dev-main",
+        "heimrichhannot/pdf-creator": "^0.1",
         "psr/log": "1.0"
-    },
-    "require-dev": {
-        "contao/easy-coding-standard": "^3.0",
-        "contao/manager-plugin": "^2.3",
-        "contao/test-case": "^4.0",
-        "phpunit/phpunit": "^8.4",
-        "symfony/http-client": "4.4.*",
-        "symfony/phpunit-bridge": "4.4.*"
     },
     "autoload": {
         "psr-4": {
             "Heimrichhannot\\PdfCreatorBundle\\": "src/"
-        },
-        "classmap": [
-            "src/Resources/contao"
-        ],
-        "exclude-from-classmap": [
-            "src/Resources/contao/config",
-            "src/Resources/contao/dca",
-            "src/Resources/contao/languages",
-            "src/Resources/contao/templates"
-        ]
+        }
     },
     "extra": {
         "contao-manager-plugin": "Heimrichhannot\\PdfCreatorBundle\\ContaoManager\\Plugin"
