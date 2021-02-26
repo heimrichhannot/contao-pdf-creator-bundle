@@ -31,6 +31,7 @@ $lang['type'] = [
     0 => 'PDF-Bibliothek',
     1 => 'Wählen Sie eine Bibliothek aus, welche zum Rendern der PDF-Dateien verwendet werden soll.',
     \HeimrichHannot\PdfCreator\Concrete\MpdfCreator::getType() => 'mPDF',
+    \HeimrichHannot\PdfCreator\Concrete\TcpdfCreator::getType() => 'TCPDF',
 ];
 $lang['filename'] = ['Dateiname', 'Geben Sie einen Dateinamen für die zu erzeugenden PDF-Dateien an. Sie können den Platzhalter %title% verwenden, um den Titel des zu exportierenden Inhaltes im Dateinamen zu erhalten.'];
 $lang['orientation'] = [
