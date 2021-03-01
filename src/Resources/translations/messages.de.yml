@@ -1,0 +1,5 @@
+huh.pdf_creator:
+  fields:
+    pdf_creator_config:
+      name: PDF Konfiguration
+      description: Wählen Sie hier eine PDF Konfiguration aus, welche für den PDF-Export genutzt werden soll.

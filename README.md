@@ -6,6 +6,7 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
 - add PDF configuration backend module
 - can be easily used in your bundle
 - bundled support for: 
+    - contao article syndication
     - [Syndication Type Bundle](https://github.com/heimrichhannot/contao-syndication-type-bundle)
     
 ## Usage
@@ -19,6 +20,21 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
    
 1. Update database
 1. Create a pdf configuration in contao backend with system -> pdf configuration
+
+### Export article as pdf
+
+1. Set `huh_pdf_creator.enable_contao_article_pdf_syndication` to true
+
+    ```yaml
+    # config/config.yml or app/config/config.yml (Contao 4.4)
+    huh_pdf_creator:
+        enable_contao_article_pdf_syndication: true
+    ```
+
+1. Update database
+1. Choose pdf as syndication option in article configuration and select a pdf configuration
+
+![](docs/img/screenshow_contao_article_syndication.png)
 
 ### Syndication Bundle
 
@@ -42,3 +58,14 @@ Event | Description
 ----- | -----------
 BeforeCreateLibraryInstanceEvent | Passes the PDF Creator BeforeCreateLibraryInstanceCallback
 BeforeOutputPdfCallbackEvent | Passes the PDF Creator BeforeOutputPdfCallback
+
+## Configuration reference
+
+```yaml
+# Default configuration for extension with alias: "huh_pdf_creator"
+huh_pdf_creator:
+
+    # Set to true to use this bundle functionality in the contao article syndication.
+    enable_contao_article_pdf_syndication: false
+
+```
