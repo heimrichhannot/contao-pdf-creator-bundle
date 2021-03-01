@@ -8,6 +8,7 @@
 
 namespace Heimrichhannot\PdfCreatorBundle\Generator;
 
+use Heimrichhannot\PdfCreatorBundle\DataContainer\PdfCreatorConfigContainer;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class DcaGenerator
@@ -30,9 +31,9 @@ class DcaGenerator
      * - exclude: (bool) override exclude option. Default: true
      * - includeBlankOption: (bool) override includeBlankOption option. Default: false
      * - chosen: (bool) override chosen option. Default: true
-     * - tl_class: (string) override tl_class option. Default: w50
+     * - tl_class: (string) override tl_class option. Default: 'w50 wizard'
      */
-    public function addPdfCreatorConfigSelectField(array $options = []): array
+    public function getPdfCreatorConfigSelectFieldConfig(array $options = []): array
     {
         if (!isset($options['label']) || !\is_array($options['label'])) {
             $label = [
@@ -61,7 +62,7 @@ class DcaGenerator
             $exclude = $options['exclude'];
         }
 
-        $tlClass = 'w50';
+        $tlClass = 'w50 wizard';
 
         if (isset($options['tl_class']) || \is_string($options['tl_class'])) {
             $tlClass = $options['tl_class'];
@@ -70,9 +71,10 @@ class DcaGenerator
         return [
             'label' => $label,
             'inputType' => 'select',
-            'options_callback' => [PdfConfigOptionsGenerator::class, 'getPdfCreatorConfigOptions'],
+            'options_callback' => [PdfCreatorConfigContainer::class, 'getPdfCreatorConfigOptions'],
             'exclude' => $exclude,
             'eval' => ['includeBlankOption' => $includeBlankOption, 'chosen' => $choosen, 'tl_class' => $tlClass],
+            'wizard' => [[PdfCreatorConfigContainer::class, 'onPdfCreatorConfigWizardCallback']],
             'sql' => 'int(10) unsigned NOT NULL default 0',
         ];
     }

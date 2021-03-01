@@ -59,6 +59,6 @@ class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface
             'sql' => "varchar(64) NOT NULL default ''",
         ]);
 
-        $event->addField('syndicationPdfCreatorConfig', $this->dcaGenerator->addPdfCreatorConfigSelectField());
+        $event->addField('syndicationPdfCreatorConfig', $this->dcaGenerator->getPdfCreatorConfigSelectFieldConfig());
     }
 }

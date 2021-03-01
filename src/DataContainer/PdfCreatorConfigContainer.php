@@ -8,9 +8,14 @@
 
 namespace Heimrichhannot\PdfCreatorBundle\DataContainer;
 
+use Contao\Controller;
+use Contao\DataContainer;
 use Contao\DC_Table;
+use Contao\Image;
 use Contao\Input;
 use Contao\Message;
+use Contao\Model\Collection;
+use Contao\StringUtil;
 use HeimrichHannot\PdfCreator\Concrete\TcpdfCreator;
 use HeimrichHannot\PdfCreator\Exception\MissingDependenciesException;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
@@ -41,6 +46,7 @@ class PdfCreatorConfigContainer
 
     public function onLabelCallback($row, $label, $dc, $args): array
     {
+        Controller::loadLanguageFile('tl_pdf_creator_config');
         $label .= ' <span style="color:#b3b3b3; padding-left:3px; display: inline;">['
             .($GLOBALS['TL_LANG']['tl_pdf_creator_config']['type'][$row['type']] ?: $row['type'])
             .', '.$row['format']
@@ -115,5 +121,33 @@ class PdfCreatorConfigContainer
         }
 
         return $type->getSupportedOutputModes();
+    }
+
+    /**
+     * @param DataContainer $dc
+     */
+    public function onPdfCreatorConfigWizardCallback($dc): string
+    {
+        Controller::loadLanguageFile('tl_pdf_creator_config');
+
+        return (!$dc || $dc->value < 1) ? '' : ' <a href="contao?do=pdf_creator_config&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1]), $dc->value).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1], $dc->value))).'\',\'url\':this.href});return false">'.Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][0]).'</a>';
+    }
+
+    public function getPdfCreatorConfigOptions(): array
+    {
+        $options = [];
+        /** @var PdfCreatorConfigModel[]|Collection $configurations */
+        $configurations = PdfCreatorConfigModel::findAll();
+
+        if (!$configurations) {
+            return $options;
+        }
+
+        foreach ($configurations as $configuration) {
+            $label = $this->onLabelCallback($configuration->row(), $configuration->title, null, null)[0] ?: $configuration->title;
+            $options[$configuration->id] = $label;
+        }
+
+        return $options;
     }
 }

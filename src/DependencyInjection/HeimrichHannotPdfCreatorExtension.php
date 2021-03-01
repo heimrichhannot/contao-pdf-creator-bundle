@@ -20,6 +20,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 class HeimrichHannotPdfCreatorExtension extends Extension
 {
+    public function getAlias()
+    {
+        return 'huh_pdf_creator';
+    }
+
     /**
      * @throws \Exception
      */

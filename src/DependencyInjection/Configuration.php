@@ -25,5 +25,7 @@ class Configuration implements ConfigurationInterface
                     ->info('Set to true to use this bundle functionality in the contao article syndication.')
                 ->end()
             ->end();
+
+        return $treeBuilder;
     }
 }
