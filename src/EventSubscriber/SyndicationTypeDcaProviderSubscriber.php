@@ -45,10 +45,10 @@ class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface
 
     public function addFields(AddSyndicationTypeFieldsEvent $event): void
     {
-        $event->addField('syndicationPdfCreatorTemplate', [
+        $event->addField('synPdfCreatorTemplate', [
             'label' => [
-                $this->translator->trans('huh.pdf_creator.fields.syndicationPdfCreatorTemplate.name'),
-                $this->translator->trans('huh.pdf_creator.fields.syndicationPdfCreatorTemplate.description'),
+                $this->translator->trans('huh.pdf_creator.fields.synPdfCreatorTemplate.name'),
+                $this->translator->trans('huh.pdf_creator.fields.synPdfCreatorTemplate.description'),
             ],
             'inputType' => 'select',
             'options_callback' => function ($dc) {
@@ -59,6 +59,6 @@ class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface
             'sql' => "varchar(64) NOT NULL default ''",
         ]);
 
-        $event->addField('syndicationPdfCreatorConfig', $this->dcaGenerator->getPdfCreatorConfigSelectFieldConfig());
+        $event->addField('synPdfCreatorConfig', $this->dcaGenerator->getPdfCreatorConfigSelectFieldConfig());
     }
 }

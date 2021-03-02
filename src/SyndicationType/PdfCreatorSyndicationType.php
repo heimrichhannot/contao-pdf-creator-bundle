@@ -55,7 +55,7 @@ class PdfCreatorSyndicationType extends AbstractSyndicationType implements Expor
 
     public function getPalette(): string
     {
-        return 'syndicationPdfCreatorConfig,syndicationPdfCreatorTemplate';
+        return 'synPdfCreatorConfig,synPdfCreatorTemplate';
     }
 
     public function generate(SyndicationContext $context): SyndicationLink
@@ -63,10 +63,10 @@ class PdfCreatorSyndicationType extends AbstractSyndicationType implements Expor
         return $this->linkFactory->create(
             ['application pdf'],
             $this->appendGetParameterToUrl($context->getUrl(), static::PARAM, $context->getData()['id']),
-            $this->translator->trans('huh.syndication_type.types.pdf.title'),
+            $this->translator->trans('huh.pdf_creator.syndication_type.title'),
             [
                 'class' => 'pdf',
-                'title' => $this->translator->trans('huh.syndication_type.types.pdf.title'),
+                'title' => $this->translator->trans('huh.pdf_creator.syndication_type.title'),
             ],
             $this
         );

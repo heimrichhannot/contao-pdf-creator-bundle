@@ -2,4 +2,15 @@ huh.pdf_creator:
   fields:
     pdf_creator_config:
       name: PDF Konfiguration
-      description: Wählen Sie hier eine PDF Konfiguration aus, welche für den PDF-Export genutzt werden soll.
+      description: "Wählen Sie hier eine PDF Konfiguration aus, welche für den PDF-Export genutzt werden soll."
+    synPdfCreatorTemplate:
+      name: "PDF Template"
+      description: "Wählen Sie hier das Template aus,welches für den PDF-Export genutzt werden soll."
+
+  syndication_type:
+    title: "Als PDF speichern"
+
+huh.syndication_type.fields:
+  synAddPdfCreator:
+    name: PDF-Syndikation aktivieren
+    description: "Aktivieren, um die Syndikation als PDF-Export (via PDF Creator Bundle) zu aktivieren."
