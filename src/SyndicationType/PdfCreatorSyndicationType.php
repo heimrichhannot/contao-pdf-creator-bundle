@@ -79,7 +79,7 @@ class PdfCreatorSyndicationType extends AbstractSyndicationType implements Expor
 
     public function export(SyndicationContext $context): void
     {
-        $template = new FrontendTemplate($context->getConfiguration()['syndicationPdfCreatorTemplate']);
+        $template = new FrontendTemplate($context->getConfiguration()['synPdfCreatorTemplate']);
         $template->setData($context->getData());
 
         if (!isset($context->getData()['title'])) {
@@ -96,7 +96,7 @@ class PdfCreatorSyndicationType extends AbstractSyndicationType implements Expor
 
         $this->pdfGenerator->generate(
             $template->getResponse()->getContent(),
-            $context->getConfiguration()['syndicationPdfCreatorConfig'],
+            $context->getConfiguration()['synPdfCreatorConfig'],
             new PdfGeneratorContext($context->getTitle())
         );
     }
