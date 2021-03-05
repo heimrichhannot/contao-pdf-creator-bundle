@@ -9,6 +9,10 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
     - contao article syndication
     - [Syndication Type Bundle](https://github.com/heimrichhannot/contao-syndication-type-bundle)
     
+## Screenshot Configuration
+
+![](docs/img/screenshot_contao_pdf_configuration.png)
+
 ## Usage
 
 ### Setup

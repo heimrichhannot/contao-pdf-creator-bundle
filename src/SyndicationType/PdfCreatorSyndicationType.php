@@ -14,12 +14,11 @@ use Heimrichhannot\PdfCreatorBundle\Generator\PdfGeneratorContext;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationContext\SyndicationContext;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationLink\SyndicationLink;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationLink\SyndicationLinkFactory;
-use HeimrichHannot\SyndicationTypeBundle\SyndicationType\AbstractSyndicationType;
-use HeimrichHannot\SyndicationTypeBundle\SyndicationType\ExportSyndicationTypeInterface;
+use HeimrichHannot\SyndicationTypeBundle\SyndicationType\AbstractExportSyndicationType;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class PdfCreatorSyndicationType extends AbstractSyndicationType implements ExportSyndicationTypeInterface
+class PdfCreatorSyndicationType extends AbstractExportSyndicationType
 {
     const PARAM = 'pdf';
 
