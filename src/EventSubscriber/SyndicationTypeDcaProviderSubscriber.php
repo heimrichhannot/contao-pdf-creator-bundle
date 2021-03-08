@@ -10,11 +10,16 @@ namespace Heimrichhannot\PdfCreatorBundle\EventSubscriber;
 
 use Contao\Controller;
 use Heimrichhannot\PdfCreatorBundle\Generator\DcaGenerator;
+use Heimrichhannot\PdfCreatorBundle\SyndicationType\PdfCreatorSyndicationType;
 use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeFieldsEvent;
+use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypePaletteSelectorsEvent;
+use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeSubpalettesEvent;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface
+class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface, ServiceSubscriberInterface
 {
     /**
      * @var DcaGenerator
@@ -24,26 +29,38 @@ class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface
      * @var TranslatorInterface
      */
     protected $translator;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     /**
      * SyndicationTypeDcaProviderSubscriber constructor.
      */
-    public function __construct(DcaGenerator $dcaGenerator, TranslatorInterface $translator)
+    public function __construct(ContainerInterface $container, DcaGenerator $dcaGenerator, TranslatorInterface $translator)
     {
         $this->dcaGenerator = $dcaGenerator;
         $this->translator = $translator;
+        $this->container = $container;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeFieldsEvent' => 'addFields',
-//            'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypePaletteSelectorsEvent' => '',
-//            'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeSubpalettesEvent' => ''
+            'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeFieldsEvent' => 'onAddFields',
+            'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeSubpalettesEvent' => 'onAddSubpalettes',
+            'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypePaletteSelectorsEvent' => 'onAddSelector',
         ];
     }
 
-    public function addFields(AddSyndicationTypeFieldsEvent $event): void
+    public static function getSubscribedServices()
+    {
+        return [
+            '?HeimrichHannot\EncoreBundle\Dca\DcaGenerator',
+        ];
+    }
+
+    public function onAddFields(AddSyndicationTypeFieldsEvent $event): void
     {
         $event->addField('synPdfCreatorTemplate', [
             'label' => [
@@ -60,5 +77,33 @@ class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface
         ]);
 
         $event->addField('synPdfCreatorConfig', $this->dcaGenerator->getPdfCreatorConfigSelectFieldConfig());
+
+        if ($this->container->has('HeimrichHannot\EncoreBundle\Dca\DcaGenerator')) {
+            $event->addCheckboxField('synPdfCreatorUseCustomEncoreEntries', true);
+            $event->addField('synPdfCreatorCustomEncoreEntries', $this->container->get(\HeimrichHannot\EncoreBundle\Dca\DcaGenerator::class)->getEncoreEntriesSelect(false));
+        }
+    }
+
+    public function onAddSubpalettes(AddSyndicationTypeSubpalettesEvent $event)
+    {
+        if ($this->container->has('HeimrichHannot\EncoreBundle\Dca\DcaGenerator')) {
+            $event->addSubpalettes('synPdfCreatorUseCustomEncoreEntries', 'synPdfCreatorCustomEncoreEntries');
+            $event->addSubpalettes(
+                PdfCreatorSyndicationType::getActivationField(),
+                str_replace(
+                    'synPdfCreatorTemplate',
+                    'synPdfCreatorTemplate,synPdfCreatorUseCustomEncoreEntries',
+                    $event->getSubpalettes()[PdfCreatorSyndicationType::getActivationField()]
+                )
+            );
+//            $event->addSubpalettes('synUsePrintTemplate', $event->getSubpalettes()['synUsePrintTemplate'].',synPrintUseCustomEncoreEntries');
+        }
+    }
+
+    public function onAddSelector(AddSyndicationTypePaletteSelectorsEvent $event): void
+    {
+        if ($this->container->has('HeimrichHannot\EncoreBundle\Dca\DcaGenerator')) {
+            $event->addSelector('synPdfCreatorUseCustomEncoreEntries');
+        }
     }
 }

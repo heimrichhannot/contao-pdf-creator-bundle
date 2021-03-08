@@ -16,7 +16,7 @@ use HeimrichHannot\SyndicationTypeBundle\SyndicationLink\SyndicationLink;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationLink\SyndicationLinkFactory;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationType\AbstractExportSyndicationType;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class PdfCreatorSyndicationType extends AbstractExportSyndicationType
 {
@@ -80,6 +80,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType
     {
         $template = new FrontendTemplate($context->getConfiguration()['synPdfCreatorTemplate']);
         $template->setData($context->getData());
+        $template->isSyndicationExportTemplate = true;
 
         if (!isset($context->getData()['title'])) {
             $template->title = $context->getTitle();

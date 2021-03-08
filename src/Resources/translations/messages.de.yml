@@ -14,3 +14,6 @@ huh.syndication_type.fields:
   synAddPdfCreator:
     name: PDF-Syndikation aktivieren
     description: "Aktivieren, um die Syndikation als PDF-Export (via PDF Creator Bundle) zu aktivieren."
+  synPdfCreatorUseCustomEncoreEntries:
+    name: "Benutzerdefinierte Encore-Entries verwenden"
+    description: "Nutzen Sie diese Optionen, um die Encore-Entries der Seite mit benutzerdefinierten Entries zu überschreiben."
