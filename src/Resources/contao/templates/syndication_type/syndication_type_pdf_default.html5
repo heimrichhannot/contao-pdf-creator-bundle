@@ -1,3 +1,0 @@
-<h1><?= $this->title ?></h1>
-<?= $this->content ?>
-<p><a href="<?= $this->url?>"><?= $this->url ?></a></p>

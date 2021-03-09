@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ language }}" {% if isRTL %} dir="rtl"{% endif %}>
+<head>
+    {% block head %}
+        <meta charset="{{ charset }}">
+        <title>{{ title }}</title>
+        <base href="{{ base }}">
+        {{ stylesheets|default|raw }}
+    {% endblock %}
+</head>
+<body class="{{ cssBodyClass|default('pdf') }}">
+{% block body %}
+    <h1>{{ title|default }}</h1>
+    <p>{{ content|default|raw }}</p>
+{% endblock %}
+{% block footer %}
+{% endblock %}
+</body>
+</html>

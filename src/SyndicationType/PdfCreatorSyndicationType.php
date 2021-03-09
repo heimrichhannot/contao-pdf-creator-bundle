@@ -8,17 +8,24 @@
 
 namespace Heimrichhannot\PdfCreatorBundle\SyndicationType;
 
-use Contao\FrontendTemplate;
+use Contao\Config;
+use Contao\Environment;
+use Contao\StringUtil;
+use HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory;
+use HeimrichHannot\EncoreBundle\Asset\TemplateAssetGenerator;
 use Heimrichhannot\PdfCreatorBundle\Generator\PdfGenerator;
 use Heimrichhannot\PdfCreatorBundle\Generator\PdfGeneratorContext;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationContext\SyndicationContext;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationLink\SyndicationLink;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationLink\SyndicationLinkFactory;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationType\AbstractExportSyndicationType;
+use HeimrichHannot\TwigSupportBundle\Template\TwigFrontendTemplate;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class PdfCreatorSyndicationType extends AbstractExportSyndicationType
+class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements ServiceSubscriberInterface
 {
     const PARAM = 'pdf';
 
@@ -38,13 +45,18 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType
      * @var PdfGenerator
      */
     protected $pdfGenerator;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
-    public function __construct(SyndicationLinkFactory $linkFactory, TranslatorInterface $translator, RequestStack $requestStack, PdfGenerator $pdfGenerator)
+    public function __construct(ContainerInterface $container, SyndicationLinkFactory $linkFactory, TranslatorInterface $translator, RequestStack $requestStack, PdfGenerator $pdfGenerator)
     {
         $this->linkFactory = $linkFactory;
         $this->translator = $translator;
         $this->requestStack = $requestStack;
         $this->pdfGenerator = $pdfGenerator;
+        $this->container = $container;
     }
 
     public static function getType(): string
@@ -78,8 +90,14 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType
 
     public function export(SyndicationContext $context): void
     {
-        $template = new FrontendTemplate($context->getConfiguration()['synPdfCreatorTemplate']);
-        $template->setData($context->getData());
+        $template = new TwigFrontendTemplate($context->getConfiguration()['synPdfCreatorTemplate']);
+
+        $data = $context->getData();
+        $data['isRTL'] = 'rtl' === $GLOBALS['TL_LANG']['MSC']['textDirection'];
+        $data['language'] = $GLOBALS['TL_LANGUAGE'];
+        $data['charset'] = Config::get('characterSet');
+        $data['base'] = Environment::get('base');
+        $template->setData($data);
         $template->isSyndicationExportTemplate = true;
 
         if (!isset($context->getData()['title'])) {
@@ -94,10 +112,29 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType
             $template->url = $context->getUrl();
         }
 
+        if ($this->container->has('HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory')) {
+            $useEncore = (bool) $context->getConfiguration()['synPrintUseCustomEncoreEntries'] ?? false;
+
+            if ($useEncore && !empty(($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPrintCustomEncoreEntries'], true))))) {
+                $collection = $this->container->get(EntrypointCollectionFactory::class)->createCollection($entrypoints);
+                $template->stylesheets = $this->container->get(TemplateAssetGenerator::class)->linkTags($collection);
+                $template->headJavaScript = $this->container->get(TemplateAssetGenerator::class)->headScriptTags($collection);
+                $template->javaScript = $this->container->get(TemplateAssetGenerator::class)->scriptTags($collection);
+            }
+        }
+
         $this->pdfGenerator->generate(
             $template->getResponse()->getContent(),
             $context->getConfiguration()['synPdfCreatorConfig'],
             new PdfGeneratorContext($context->getTitle())
         );
+    }
+
+    public static function getSubscribedServices()
+    {
+        return [
+            '?HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory',
+            '?HeimrichHannot\EncoreBundle\Asset\TemplateAssetGenerator',
+        ];
     }
 }

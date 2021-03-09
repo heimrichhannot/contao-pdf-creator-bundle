@@ -28,6 +28,9 @@
         "heimrichhannot/contao-utils-bundle": "^2.188",
         "psr/log": "^1.0"
     },
+    "conflict": {
+        "heimrichhannot/contao-encore-bundle": "<1.10.0"
+    },
     "autoload": {
         "psr-4": {
             "Heimrichhannot\\PdfCreatorBundle\\": "src/"

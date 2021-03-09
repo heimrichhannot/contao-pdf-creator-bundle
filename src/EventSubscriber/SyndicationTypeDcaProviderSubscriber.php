@@ -8,7 +8,6 @@
 
 namespace Heimrichhannot\PdfCreatorBundle\EventSubscriber;
 
-use Contao\Controller;
 use Heimrichhannot\PdfCreatorBundle\Generator\DcaGenerator;
 use Heimrichhannot\PdfCreatorBundle\SyndicationType\PdfCreatorSyndicationType;
 use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeFieldsEvent;
@@ -62,20 +61,7 @@ class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface, 
 
     public function onAddFields(AddSyndicationTypeFieldsEvent $event): void
     {
-        $event->addField('synPdfCreatorTemplate', [
-            'label' => [
-                $this->translator->trans('huh.pdf_creator.fields.synPdfCreatorTemplate.name'),
-                $this->translator->trans('huh.pdf_creator.fields.synPdfCreatorTemplate.description'),
-            ],
-            'inputType' => 'select',
-            'options_callback' => function ($dc) {
-                return Controller::getTemplateGroup('syndication_type_pdf_');
-            },
-            'exclude' => true,
-            'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
-            'sql' => "varchar(64) NOT NULL default ''",
-        ]);
-
+        $event->addTemplateSelectField('synPdfCreatorTemplate', 'syndication_type_pdf_');
         $event->addField('synPdfCreatorConfig', $this->dcaGenerator->getPdfCreatorConfigSelectFieldConfig());
 
         if ($this->container->has('HeimrichHannot\EncoreBundle\Dca\DcaGenerator')) {
