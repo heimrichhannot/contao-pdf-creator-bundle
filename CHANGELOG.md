@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2021-03-09
+- syndication type now use twig
+- syndication type now supports encore bundle
+
 ## [0.1.1] - 2021-03-05
 - updated the syndication type
 
