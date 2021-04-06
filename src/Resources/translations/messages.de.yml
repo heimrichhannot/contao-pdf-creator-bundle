@@ -11,8 +11,11 @@ huh.pdf_creator:
     title: "Als PDF speichern"
 
 huh.syndication_type.fields:
+  synPdfCreatorTemplate:
+    name: "PDF-Template"
+    descripiton: "Wählen Sie hier ein Template für den PDF-Export aus."
   synAddPdfCreator:
-    name: PDF-Syndikation aktivieren
+    name: "PDF-Syndikation aktivieren"
     description: "Aktivieren, um die Syndikation als PDF-Export (via PDF Creator Bundle) zu aktivieren."
   synPdfCreatorUseCustomEncoreEntries:
     name: "Benutzerdefinierte Encore-Entries verwenden"
