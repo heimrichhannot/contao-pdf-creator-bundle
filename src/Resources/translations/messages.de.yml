@@ -13,7 +13,7 @@ huh.pdf_creator:
 huh.syndication_type.fields:
   synPdfCreatorTemplate:
     name: "PDF-Template"
-    descripiton: "Wählen Sie hier ein Template für den PDF-Export aus."
+    description: "Wählen Sie hier ein Template für den PDF-Export aus."
   synAddPdfCreator:
     name: "PDF-Syndikation aktivieren"
     description: "Aktivieren, um die Syndikation als PDF-Export (via PDF Creator Bundle) zu aktivieren."
