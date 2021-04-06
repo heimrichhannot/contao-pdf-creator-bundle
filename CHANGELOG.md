@@ -1,7 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [DEV] - 2021-04-06
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.2.1] - 2021-04-06
 - fixed missing syndication type translation
 
 ## [0.2.0] - 2021-03-09
