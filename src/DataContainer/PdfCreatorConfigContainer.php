@@ -9,6 +9,7 @@
 namespace Heimrichhannot\PdfCreatorBundle\DataContainer;
 
 use Contao\Controller;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use Contao\Image;
@@ -16,6 +17,7 @@ use Contao\Input;
 use Contao\Message;
 use Contao\Model\Collection;
 use Contao\StringUtil;
+use HeimrichHannot\PdfCreator\AbstractPdfCreator;
 use HeimrichHannot\PdfCreator\Concrete\TcpdfCreator;
 use HeimrichHannot\PdfCreator\Exception\MissingDependenciesException;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
@@ -84,12 +86,24 @@ class PdfCreatorConfigContainer
             Message::addError($message);
         }
 
-        $dca = &$GLOBALS['TL_DCA'][PdfCreatorConfigModel::getTable()];
+        $paletteManipulator = PaletteManipulator::create();
+
+        if ($type->isSupported(AbstractPdfCreator::SUPPORT_MASTERTEMPLATE)) {
+            $paletteManipulator->addField('masterTemplate', 'format');
+        }
+
+        if ($type->isSupported(AbstractPdfCreator::SUPPORT_FONTS)) {
+            $paletteManipulator->addField('fonts', 'format');
+        }
+
+        if ($type->isSupported(AbstractPdfCreator::SUPPORT_MARGINS)) {
+            $paletteManipulator->addField('pageMargins', 'format');
+        }
+        $paletteManipulator->applyToPalette('default', 'tl_pdf_creator_config');
 
         switch ($config->type) {
             case TcpdfCreator::getType():
                 if (!class_exists('setasign\Fpdi\Tcpdf\Fpdi')) {
-                    $dca['palettes']['default'] = str_replace(',masterTemplate', '', $dca['palettes']['default']);
                     $missingFpdiMessage = ($GLOBALS['TL_LANG']['INFO']['huhPdfCreatorMissingDependencyForMasterTemplate'] ?:
                         'To use pdf master templates, you need to install %s');
                     $missingFpdiMessage = sprintf($missingFpdiMessage, '"setasign/fpdi": "^2.3"');

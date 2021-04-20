@@ -11,6 +11,7 @@ namespace Heimrichhannot\PdfCreatorBundle\Generator;
 use Ausi\SlugGenerator\SlugGenerator;
 use Contao\FilesModel;
 use Contao\StringUtil;
+use HeimrichHannot\PdfCreator\AbstractPdfCreator;
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
 use HeimrichHannot\PdfCreator\BeforeOutputPdfCallback;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
@@ -68,7 +69,7 @@ class PdfGenerator
             throw new PdfCreatorNotFoundException($configuration->type);
         }
 
-        if ($this->kernel->isDebug()) {
+        if ($this->kernel->isDebug() && $type->isSupported(AbstractPdfCreator::SUPPORT_PSR_LOGGING)) {
             $type->setLogger($this->pdfInstanceLog);
         }
 

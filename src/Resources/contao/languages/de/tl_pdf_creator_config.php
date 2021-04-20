@@ -30,6 +30,7 @@ $lang['title'] = ['Name', 'Geben Sie einen Namen für die Konfiguration ein.'];
 $lang['type'] = [
     0 => 'PDF-Bibliothek',
     1 => 'Wählen Sie eine Bibliothek aus, welche zum Rendern der PDF-Dateien verwendet werden soll.',
+    \HeimrichHannot\PdfCreator\Concrete\DompdfCreator::getType() => 'Dompdf',
     \HeimrichHannot\PdfCreator\Concrete\MpdfCreator::getType() => 'mPDF',
     \HeimrichHannot\PdfCreator\Concrete\TcpdfCreator::getType() => 'TCPDF',
 ];

@@ -68,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
         ],
     ],
     'palettes' => [
-        'default' => '{type_legend},title,type;{file_legend},filename,outputMode;{page_legend},orientation,format,pageMargins,fonts,masterTemplate',
+        'default' => '{type_legend},title,type;{file_legend},filename,outputMode;{page_legend},orientation,format',
     ],
     'fields' => [
         'id' => [
