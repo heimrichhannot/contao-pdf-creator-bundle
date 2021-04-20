@@ -9,6 +9,8 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
     - contao article syndication
     - [Syndication Type Bundle](https://github.com/heimrichhannot/contao-syndication-type-bundle)
     
+> Note: there is no pdf library bundled with this bundle, you need to add the ones you want to use by your own! See Usage section for more information.
+
 ## Screenshot Configuration
 
 ![](docs/img/screenshot_contao_pdf_configuration.png)
@@ -16,8 +18,7 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
 ## Usage
 
 ### Setup
-
-1. Install the pdf library you want to use (currently mpdf and tcpdf are supported, see [PDF Creator library](https://github.com/heimrichhannot/pdf-creator)) for more information
+1. Install the pdf library you want to use (currently dompdf, mpdf and tcpdf are supported, see [PDF Creator library](https://github.com/heimrichhannot/pdf-creator)) for more information
 1. Install bundle with composer or contao manager 
    
         composer require heimrichhannot/contao-pdf-creator-bundle
@@ -35,7 +36,7 @@ This bundle add a generic way to configure the creation of pdf files, reuse this
         enable_contao_article_pdf_syndication: true
     ```
 
-1. Update database
+1. Clear cache and update database
 1. Choose pdf as syndication option in article configuration and select a pdf configuration
 
 ![](docs/img/screenshow_contao_article_syndication.png)
@@ -47,7 +48,8 @@ Select PDF syndication and choose the pdf creator setting you want for export.
 ### Logging
 
 To get enhanced debug information while creating pdfs, you can enter the contao dev mode. 
-In dev mode, pdf creator bundle save all logs created by the pdf library (if the library supports PSR-3 logging) to a huh_pdf_creator-[DATE].log file.
+In dev mode, pdf creator bundle save all logs created by the pdf library (if the library supports PSR-3 logging) to a huh_pdf_creator-[DATE].log file in the log folder.
+For dompdf this bundle support the custom logging implementation and stores the log to a huh_pdf_creator-dompdf.log file in the log folder.
 
 ## Developer
 
