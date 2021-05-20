@@ -90,16 +90,16 @@ class PdfGenerator
         $eventDispatcher = $this->eventDispatcher;
         $slugGenerator = new SlugGenerator();
 
-        $type->setBeforeCreateInstanceCallback(function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatcher) {
+        $type->setBeforeCreateInstanceCallback(function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatcher, $configuration) {
             /* @noinspection PhpParamsInspection */
             /* @noinspection PhpMethodParametersCountMismatchInspection */
-            $eventDispatcher->dispatch(BeforeCreateLibraryInstanceEvent::class, new BeforeCreateLibraryInstanceEvent($callback));
+            $eventDispatcher->dispatch(BeforeCreateLibraryInstanceEvent::class, new BeforeCreateLibraryInstanceEvent($callback, $configuration));
         });
 
-        $type->setBeforeOutputPdfCallback(function (BeforeOutputPdfCallback $callback) use ($eventDispatcher) {
+        $type->setBeforeOutputPdfCallback(function (BeforeOutputPdfCallback $callback) use ($eventDispatcher, $configuration) {
             /* @noinspection PhpParamsInspection */
             /* @noinspection PhpMethodParametersCountMismatchInspection */
-            $eventDispatcher->dispatch(BeforeOutputPdfCallbackEvent::class, new BeforeOutputPdfCallbackEvent($callback));
+            $eventDispatcher->dispatch(BeforeOutputPdfCallbackEvent::class, new BeforeOutputPdfCallbackEvent($callback, $configuration));
         });
 
         $filename = str_replace(

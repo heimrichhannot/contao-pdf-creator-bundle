@@ -123,9 +123,8 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
             }
         }
 
-        $htmlContent = $template->getResponse()->getContent();
         $this->pdfGenerator->generate(
-            $htmlContent,
+            $template->getResponse()->getContent(),
             $context->getConfiguration()['synPdfCreatorConfig'],
             new PdfGeneratorContext($context->getTitle())
         );
