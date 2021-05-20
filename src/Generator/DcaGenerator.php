@@ -73,9 +73,9 @@ class DcaGenerator
             'inputType' => 'select',
             'options_callback' => [PdfCreatorConfigContainer::class, 'getPdfCreatorConfigOptions'],
             'exclude' => $exclude,
-            'eval' => ['includeBlankOption' => $includeBlankOption, 'chosen' => $choosen, 'tl_class' => $tlClass],
+            'eval' => ['includeBlankOption' => $includeBlankOption, 'chosen' => $choosen, 'tl_class' => $tlClass, 'submitOnChange' => true],
             'wizard' => [[PdfCreatorConfigContainer::class, 'onPdfCreatorConfigWizardCallback']],
-            'sql' => 'int(10) unsigned NOT NULL default 0',
+            'sql' => "varchar(32) NOT NULL default ''",
         ];
     }
 }

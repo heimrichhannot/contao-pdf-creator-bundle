@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Heimrichhannot\PdfCreatorBundle\Model;
 
 use Contao\Model;
+use function Symfony\Component\String\u;
 
 /**
  * Class PdfCreatorConfigModel.
@@ -28,4 +29,23 @@ use Contao\Model;
 class PdfCreatorConfigModel extends Model
 {
     protected static $strTable = 'tl_pdf_creator_config';
+
+    /**
+     * @return static
+     */
+    public static function createModelFromBundleConfig(string $title, array $data): self
+    {
+        $model = new self();
+        $model->id = $title;
+        $model->title = $data['name'] ?: $title;
+
+        foreach ($data as $key => $value) {
+            if (\in_array($key, ['title', 'name', 'id'])) {
+                continue;
+            }
+            $model->{u($key)->camel()} = $value;
+        }
+
+        return $model;
+    }
 }

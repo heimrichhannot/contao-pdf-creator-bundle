@@ -9,6 +9,7 @@
 namespace Heimrichhannot\PdfCreatorBundle\Event;
 
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
+use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 use Symfony\Component\EventDispatcher\Event;
 
 class BeforeCreateLibraryInstanceEvent extends Event
@@ -17,13 +18,18 @@ class BeforeCreateLibraryInstanceEvent extends Event
      * @var BeforeCreateLibraryInstanceCallback
      */
     protected $beforeCreateLibraryInstanceCallback;
+    /**
+     * @var PdfCreatorConfigModel
+     */
+    protected $configuration;
 
     /**
      * BeforeCreateLibraryInstanceEvent constructor.
      */
-    public function __construct(BeforeCreateLibraryInstanceCallback $beforeCreateLibraryInstanceCallback)
+    public function __construct(BeforeCreateLibraryInstanceCallback $beforeCreateLibraryInstanceCallback, PdfCreatorConfigModel $configuration)
     {
         $this->beforeCreateLibraryInstanceCallback = $beforeCreateLibraryInstanceCallback;
+        $this->configuration = $configuration;
     }
 
     public function getBeforeCreateLibraryInstanceCallback(): BeforeCreateLibraryInstanceCallback
@@ -34,5 +40,10 @@ class BeforeCreateLibraryInstanceEvent extends Event
     public function setBeforeCreateLibraryInstanceCallback(BeforeCreateLibraryInstanceCallback $beforeCreateLibraryInstanceCallback): void
     {
         $this->beforeCreateLibraryInstanceCallback = $beforeCreateLibraryInstanceCallback;
+    }
+
+    public function getConfiguration(): PdfCreatorConfigModel
+    {
+        return $this->configuration;
     }
 }
