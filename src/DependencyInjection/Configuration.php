@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
         ;
         $rootNode->children()
                 ->arrayNode('configurations')
+                    ->useAttributeAsKey('title')
                     ->arrayPrototype()
                         ->children()
                             ->enumNode('type')
@@ -42,8 +43,7 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->scalarNode('filename')
                                 ->defaultValue('%%title%%.pdf')
-                                ->info('Set a file name for the generated pdf files.
-                                        You can use the %title% placeholder to use the title of the content to export in the file name.')
+                                ->info('Set a file name for the generated pdf files. You can use the %title% placeholder to use the title of the content to export in the file name.')
                                 ->end()
                             ->enumNode('orientation')
                                 ->values([AbstractPdfCreator::ORIENTATION_PORTRAIT, AbstractPdfCreator::ORIENTATION_LANDSCAPE])
@@ -57,13 +57,11 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->scalarNode('format')
                                 ->defaultValue('A4')
-                                ->info('Set a page format. This could be a standardized format like A3, A4, A5 or Legal,
-                                        otherwise you can specify the format in millimeter (width x height, seperated by comma, for example 180,210).')
+                                ->info('Set a page format. This could be a standardized format like A3, A4, A5 or Legal, otherwise you can specify the format in millimeter (width x height, seperated by comma, for example 180,210).')
                                 ->end()
                             ->scalarNode('base_url')
                                 ->defaultNull()
-                                ->info('Set a default url that will override the url that is determined by the request.
-                                        This can be usefull on development servers with custom url mapping.')
+                                ->info('Set a default url that will override the url that is determined by the request. This can be usefull on development servers with custom url mapping.')
                                 ->example('https://stage.example.org:8001/examplepath/')
                                 ->end()
                             ->scalarNode('credentials')
