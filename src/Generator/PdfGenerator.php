@@ -43,21 +43,35 @@ class PdfGenerator
      * @var KernelInterface
      */
     protected $kernel;
+    /**
+     * @var array
+     */
+    protected $bundleConfig;
 
     /**
      * PdfGenerator constructor.
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, string $projectFolder, LoggerInterface $pdfInstanceLog, KernelInterface $kernel)
+    public function __construct(EventDispatcherInterface $eventDispatcher, string $projectFolder, LoggerInterface $pdfInstanceLog, KernelInterface $kernel, array $bundleConfig)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->projectFolder = $projectFolder;
         $this->pdfInstanceLog = $pdfInstanceLog;
         $this->kernel = $kernel;
+        $this->bundleConfig = $bundleConfig;
     }
 
-    public function generate(string $htmlContent, int $configuration, PdfGeneratorContext $context): void
+    public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): void
     {
-        $configuration = PdfCreatorConfigModel::findByPk($configuration);
+        if (is_numeric($configuration)) {
+            $configuration = PdfCreatorConfigModel::findByPk($configuration);
+        } else {
+            if (isset($this->bundleConfig['configurations'][$configuration])) {
+                $configuration = PdfCreatorConfigModel::createModelFromBundleConfig(
+                    $configuration,
+                    $this->bundleConfig['configurations'][$configuration]
+                );
+            }
+        }
 
         if (!$configuration) {
             throw new PdfCreatorConfigurationNotFoundException((int) $configuration);

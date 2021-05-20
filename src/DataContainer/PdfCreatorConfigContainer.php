@@ -36,14 +36,19 @@ class PdfCreatorConfigContainer
      * @var ModelUtil
      */
     protected $modelUtil;
+    /**
+     * @var array
+     */
+    protected $bundleConfig;
 
     /**
      * PdfCreatorConfigContainer constructor.
      */
-    public function __construct(ContainerUtil $containerUtil, ModelUtil $modelUtil)
+    public function __construct(ContainerUtil $containerUtil, ModelUtil $modelUtil, array $bundleConfig)
     {
         $this->containerUtil = $containerUtil;
         $this->modelUtil = $modelUtil;
+        $this->bundleConfig = $bundleConfig;
     }
 
     public function onLabelCallback($row, $label, $dc, $args): array
@@ -144,16 +149,27 @@ class PdfCreatorConfigContainer
     {
         Controller::loadLanguageFile('tl_pdf_creator_config');
 
-        return (!$dc || $dc->value < 1) ? '' : ' <a href="contao?do=pdf_creator_config&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1]), $dc->value).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1], $dc->value))).'\',\'url\':this.href});return false">'.Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][0]).'</a>';
+        return (!$dc || !is_numeric($dc->value) || $dc->value < 1) ? '' : ' <a href="contao?do=pdf_creator_config&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1]), $dc->value).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1], $dc->value))).'\',\'url\':this.href});return false">'.Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][0]).'</a>';
     }
 
     public function getPdfCreatorConfigOptions(): array
     {
+        $configurations = [];
         $options = [];
-        /** @var PdfCreatorConfigModel[]|Collection $configurations */
-        $configurations = PdfCreatorConfigModel::findAll();
+        /** @var PdfCreatorConfigModel[]|Collection $configurationModels */
+        $configurationModels = PdfCreatorConfigModel::findAll();
 
-        if (!$configurations) {
+        if ($configurationModels) {
+            $configurations = $configurationModels->getModels();
+        }
+
+        if (isset($this->bundleConfig['configurations'])) {
+            foreach ($this->bundleConfig['configurations'] as $title => $config) {
+                $configurations[] = PdfCreatorConfigModel::createModelFromBundleConfig($title, $config);
+            }
+        }
+
+        if (empty($configurations)) {
             return $options;
         }
 
