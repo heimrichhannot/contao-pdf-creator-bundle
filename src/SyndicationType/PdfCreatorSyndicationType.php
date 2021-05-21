@@ -92,11 +92,18 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
     {
         $template = new TwigFrontendTemplate($context->getConfiguration()['synPdfCreatorTemplate']);
 
+        $configuration = $this->pdfGenerator->getConfiguration($context->getConfiguration()['synPdfCreatorConfig']);
+
         $data = $context->getData();
         $data['isRTL'] = 'rtl' === $GLOBALS['TL_LANG']['MSC']['textDirection'];
         $data['language'] = $GLOBALS['TL_LANGUAGE'];
         $data['charset'] = Config::get('characterSet');
-        $data['base'] = Environment::get('base');
+
+        if ($configuration->baseUrl) {
+            $data['base'] = $configuration->baseUrl;
+        } else {
+            $data['base'] = Environment::get('base');
+        }
         $template->setData($data);
         $template->isSyndicationExportTemplate = true;
 

@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0-DEV] - 2021-05-21
+- Add option to configure pdf creator from yaml ([#3])
+- add base_url and credentials option (only yaml and dompdf) ([#3])
+- add PdfCreatorModel to the BeforeCreateLibraryInstanceEvent and BeforeOutputPdfCallbackEvent ([#3])
+- fixed Dompdf log in prod mode ([#3])
+
 ## [0.2.2] - 2021-04-20
 - increased pdf creator library dependency to 0.3
 - added support for Dompdf (translations and custom debug implementation)
@@ -20,3 +26,5 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.1.0] - 2021-02-26
 Initial release
+
+[#3]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/3

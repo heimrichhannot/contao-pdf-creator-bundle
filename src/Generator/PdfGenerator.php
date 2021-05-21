@@ -62,16 +62,7 @@ class PdfGenerator
 
     public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): void
     {
-        if (is_numeric($configuration)) {
-            $configuration = PdfCreatorConfigModel::findByPk($configuration);
-        } else {
-            if (isset($this->bundleConfig['configurations'][$configuration])) {
-                $configuration = PdfCreatorConfigModel::createModelFromBundleConfig(
-                    $configuration,
-                    $this->bundleConfig['configurations'][$configuration]
-                );
-            }
-        }
+        $configuration = $this->getConfiguration($configuration);
 
         if (!$configuration) {
             throw new PdfCreatorConfigurationNotFoundException((int) $configuration);
@@ -148,5 +139,21 @@ class PdfGenerator
         $type->setHtmlContent($htmlContent);
 
         $type->render();
+    }
+
+    public function getConfiguration(string $configuration): ?PdfCreatorConfigModel
+    {
+        if (is_numeric($configuration)) {
+            $configuration = PdfCreatorConfigModel::findByPk($configuration);
+        } else {
+            if (isset($this->bundleConfig['configurations'][$configuration])) {
+                $configuration = PdfCreatorConfigModel::createModelFromBundleConfig(
+                    $configuration,
+                    $this->bundleConfig['configurations'][$configuration]
+                );
+            }
+        }
+
+        return $configuration;
     }
 }
