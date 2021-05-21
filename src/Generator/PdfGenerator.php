@@ -11,6 +11,7 @@ namespace Heimrichhannot\PdfCreatorBundle\Generator;
 use Ausi\SlugGenerator\SlugGenerator;
 use Contao\FilesModel;
 use Contao\StringUtil;
+use Contao\Validator;
 use HeimrichHannot\PdfCreator\AbstractPdfCreator;
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
 use HeimrichHannot\PdfCreator\BeforeOutputPdfCallback;
@@ -130,9 +131,19 @@ class PdfGenerator
             $type->setMargins($margins['top'], $margins['right'], $margins['bottom'], $margins['left']);
         }
 
-        if ($configuration->masterTemplate && $file = FilesModel::findByUuid($configuration->masterTemplate)) {
-            if (file_exists($this->projectFolder.\DIRECTORY_SEPARATOR.'web/'.$file->path)) {
-                $type->setTemplateFilePath($this->projectFolder.\DIRECTORY_SEPARATOR.$file->path);
+        if ($configuration->masterTemplate) {
+            if (Validator::isUuid($configuration->masterTemplate)) {
+                $file = FilesModel::findByUuid($configuration->masterTemplate);
+
+                if ($file) {
+                    $filePath = $file->path;
+                }
+            } else {
+                $filePath = $configuration->masterTemplate;
+            }
+
+            if ($filePath && file_exists($this->projectFolder.\DIRECTORY_SEPARATOR.'web/'.$filePath)) {
+                $type->setTemplateFilePath($this->projectFolder.\DIRECTORY_SEPARATOR.'web/'.$filePath);
             }
         }
 

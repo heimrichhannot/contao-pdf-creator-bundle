@@ -43,6 +43,12 @@ class PdfCreatorConfigModel extends Model
             if (\in_array($key, ['title', 'name', 'id'])) {
                 continue;
             }
+
+            if ('base_template' === $key) {
+                $model->masterTemplate = $value;
+
+                continue;
+            }
             $model->{u($key)->camel()} = $value;
         }
 

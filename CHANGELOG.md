@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.3.0-DEV] - 2021-05-21
 - Add option to configure pdf creator from yaml ([#3])
-- add base_url and credentials option (only yaml and dompdf) ([#3])
+- add base_url and credentials option (only yaml) ([#3])
 - add PdfCreatorModel to the BeforeCreateLibraryInstanceEvent and BeforeOutputPdfCallbackEvent ([#3])
 - fixed Dompdf log in prod mode ([#3])
 
