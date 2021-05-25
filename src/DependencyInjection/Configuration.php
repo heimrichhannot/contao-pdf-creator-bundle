@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
                                 ->info('Set a page format. This could be a standardized format like A3, A4, A5 or Legal, otherwise you can specify the format in millimeter (width x height, seperated by comma, for example 180,210).')
                                 ->end()
                             ->scalarNode('base_template')
-                                ->info('Set a pdf template (master template), which will be the base template for the generated pdf files. Must be a path relative to the contao web root.')
+                                ->info('Set a pdf template (also known as master template), which will be the base template for the generated pdf files. Must be a path relative to the contao web root.')
                                 ->example('files/media/news/news_base_template.pdf')
                                 ->end()
                             ->scalarNode('base_url')

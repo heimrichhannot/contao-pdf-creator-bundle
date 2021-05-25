@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - add base_url and credentials option (only yaml) ([#3])
 - add PdfCreatorModel to the BeforeCreateLibraryInstanceEvent and BeforeOutputPdfCallbackEvent ([#3])
 - fixed Dompdf log in prod mode ([#3])
+- adjustments due changes in pdf creator library 0.3.2
 
 ## [0.2.2] - 2021-04-20
 - increased pdf creator library dependency to 0.3

@@ -18,6 +18,7 @@ use Contao\Message;
 use Contao\Model\Collection;
 use Contao\StringUtil;
 use HeimrichHannot\PdfCreator\AbstractPdfCreator;
+use HeimrichHannot\PdfCreator\Concrete\DompdfCreator;
 use HeimrichHannot\PdfCreator\Concrete\TcpdfCreator;
 use HeimrichHannot\PdfCreator\Exception\MissingDependenciesException;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
@@ -114,6 +115,18 @@ class PdfCreatorConfigContainer
                     $missingFpdiMessage = sprintf($missingFpdiMessage, '"setasign/fpdi": "^2.3"');
                     Message::addInfo($missingFpdiMessage);
                 }
+
+                break;
+
+            case DompdfCreator::getType():
+                if (!class_exists('setasign\Fpdi\Tcpdf\Fpdi')) {
+                    $missingFpdiMessage = ($GLOBALS['TL_LANG']['INFO']['huhPdfCreatorMissingDependencyForMasterTemplate'] ?:
+                        'To use pdf master templates, you need to install %s');
+                    $missingFpdiMessage = sprintf($missingFpdiMessage, '"setasign/fpdi": "^2.3" and "tecnickcom/tcpdf": "^6.3"');
+                    Message::addInfo($missingFpdiMessage);
+                }
+
+                break;
         }
     }
 

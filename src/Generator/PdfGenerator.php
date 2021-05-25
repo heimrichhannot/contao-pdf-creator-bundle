@@ -105,6 +105,8 @@ class PdfGenerator
 
         $type->setOutputMode($configuration->outputMode);
 
+        $type->setTempPath($this->kernel->getCacheDir().\DIRECTORY_SEPARATOR.'huh_pdf_creator');
+
         $formatSize = explode(',', $configuration->format);
 
         if (2 == \count($formatSize)) {
