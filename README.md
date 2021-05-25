@@ -90,7 +90,7 @@ huh_pdf_creator:
   configurations:
 
     # Prototype
-    -
+    title:
 
       # The pdf create type (pdf library).
       type:                 ~ # One of "dompdf"; "mpdf"; "tcpdf"
@@ -109,6 +109,9 @@ huh_pdf_creator:
 
       # Set a page format. This could be a standardized format like A3, A4, A5 or Legal, otherwise you can specify the format in millimeter (width x height, seperated by comma, for example 180,210).
       format:               A4
+
+      # Set a pdf template (also known as master template), which will be the base template for the generated pdf files. Must be a path relative to the contao web root.
+      base_template:        ~ # Example: files/media/news/news_base_template.pdf
 
       # Set a default url that will override the url that is determined by the request. This can be usefull on development servers with custom url mapping.
       base_url:             null # Example: 'https://stage.example.org:8001/examplepath/'
