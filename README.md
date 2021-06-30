@@ -26,6 +26,29 @@ This bundle adds a generic way to configure the creation of pdf files, reuse the
 1. Update database
 1. Create a pdf configuration in contao backend within system -> pdf configuration or via yaml (see configuration reference)
 
+### Yaml pdf configuration
+
+To reuse configurations or customize them on different environments, you can set pdf creator configs in your configuration files. You'll find all possible options in the configuration reference.
+
+Example: 
+```yaml
+# /config/config.yml
+huh_pdf_creator:
+  configurations:
+    news_export:
+      type: dompdf
+      name: "Default News export configuration"
+      filename: '%%title%%-my_brand_corporate.pdf'
+      output_mode: inline
+    brand_brochure:
+      type: dompdf
+      name: "Brand brochure"
+      filename: 'my_brand_corporate.pdf'
+      output_mode: download
+      format: A5
+      base_template: 'files/media/brand_cd/brand_brochure_template.pdf'
+```
+
 ### Export article as pdf
 
 1. Set `huh_pdf_creator.enable_contao_article_pdf_syndication` to true
@@ -44,6 +67,8 @@ This bundle adds a generic way to configure the creation of pdf files, reuse the
 ### Syndication Bundle
 
 Select PDF syndication and choose the pdf creator setting you want for export.
+
+## Advanced topics
 
 ### Logging
 
@@ -69,8 +94,42 @@ huh_pdf_creator:
 
 ### Add pdf creator to your bundle
 
-1. Use `PdfGenerator::generate()` to generator a pdf with your content. It expects an id of an PDF Creator config, html content and an `PdfContext` instance.
+1. Use `PdfGenerator::generate()` to generate a pdf with your content. It expects an id of an PDF Creator config, html content and an `PdfContext` instance.
+
+    ```php
+    use Heimrichhannot\PdfCreatorBundle\Generator\PdfGenerator;
+    use Heimrichhannot\PdfCreatorBundle\Generator\PdfGeneratorContext;
+    
+    class ExportCustomEntity {
+        /**@var PdfGenerator */
+        protected $pdfGenerator;
+        
+        public function __invoke(string $content, array $row): void {
+            $context = new PdfGeneratorContext($row['title']);
+            $this->pdfGenerator->generate($content, $row['pdfConfiguration'], $context);
+        }
+    }
+    ```
+
 1. Use `DcaGenerator` to add an PDF Creator config field to your dca.
+
+    ```php
+    use Contao\CoreBundle\DataContainer\PaletteManipulator;
+    use Heimrichhannot\PdfCreatorBundle\Generator\DcaGenerator;
+    
+    class LoadDataContainerListener {
+        /** @var DcaGenerator */
+        protected $dcaGenerator;
+        
+        public function __invoke(string $table): void
+        {
+            if ('tl_custom_dca' === $table) {
+                PaletteManipulator::create()->addField('pdfConfiguration', 'someField')->applyToPalette('default', 'tl_custom_entity');
+                $GLOBALS['TL_DCA']['tl_custom_entity']['fields']['pdfConfiguration'] = $this->dcaGenerator->getPdfCreatorConfigSelectFieldConfig();
+            }
+        }
+    }
+    ```
 
 ### Events
 
@@ -87,12 +146,14 @@ huh_pdf_creator:
 
   # Set to true to use this bundle functionality in the contao article syndication.
   enable_contao_article_pdf_syndication: false
+
+  # PDF creator configurations
   configurations:
 
-    # Prototype
+    # Prototype: The title of the configuration. Should be a unique alias/name containing just 'a-z0-9-_' like 'news_export','default','brand_a_themed'.
     title:
 
-      # The pdf create type (pdf library).
+      # The pdf creator type (pdf library).
       type:                 ~ # One of "dompdf"; "mpdf"; "tcpdf"
 
       # A nice name for displaying in the backend.
