@@ -13,6 +13,7 @@ use Contao\Environment;
 use Contao\StringUtil;
 use HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory;
 use HeimrichHannot\EncoreBundle\Asset\TemplateAssetGenerator;
+use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
 use Heimrichhannot\PdfCreatorBundle\Generator\PdfGenerator;
 use Heimrichhannot\PdfCreatorBundle\Generator\PdfGeneratorContext;
 use HeimrichHannot\SyndicationTypeBundle\SyndicationContext\SyndicationContext;
@@ -93,6 +94,10 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
         $template = new TwigFrontendTemplate($context->getConfiguration()['synPdfCreatorTemplate']);
 
         $configuration = $this->pdfGenerator->getConfiguration($context->getConfiguration()['synPdfCreatorConfig']);
+
+        if (!$configuration) {
+            throw new PdfCreatorConfigurationNotFoundException((int) $configuration);
+        }
 
         $data = $context->getData();
         $data['isRTL'] = 'rtl' === $GLOBALS['TL_LANG']['MSC']['textDirection'];

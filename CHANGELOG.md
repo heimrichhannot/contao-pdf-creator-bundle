@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2021-06-30
+- fixed PdfGenerator::getConfiguration() not always returned null if config not found
+- fixed PdfCreatorSyndicationType::export() not throws exception if export configuration not found
+
 ## [0.3.0] - 2021-05-25
 - Add option to configure pdf creator from yaml ([#3])
 - add base_url and credentials option (only yaml) ([#3])

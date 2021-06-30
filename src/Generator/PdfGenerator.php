@@ -157,16 +157,16 @@ class PdfGenerator
     public function getConfiguration(string $configuration): ?PdfCreatorConfigModel
     {
         if (is_numeric($configuration)) {
-            $configuration = PdfCreatorConfigModel::findByPk($configuration);
+            $configurationModel = PdfCreatorConfigModel::findByPk($configuration);
         } else {
             if (isset($this->bundleConfig['configurations'][$configuration])) {
-                $configuration = PdfCreatorConfigModel::createModelFromBundleConfig(
+                $configurationModel = PdfCreatorConfigModel::createModelFromBundleConfig(
                     $configuration,
                     $this->bundleConfig['configurations'][$configuration]
                 );
             }
         }
 
-        return $configuration;
+        return $configurationModel ?? null;
     }
 }
