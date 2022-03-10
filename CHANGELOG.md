@@ -3,8 +3,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [DEV] - 2021-06-30
-- updated configuration documentation
+## [0.3.2] - 2022-03-10
+- Changed: updated configuration documentation
+- Fixed: used print encore entries instead of own encore entries in syndication type
 
 ## [0.3.1] - 2021-06-30
 - fixed PdfGenerator::getConfiguration() not always returned null if config not found

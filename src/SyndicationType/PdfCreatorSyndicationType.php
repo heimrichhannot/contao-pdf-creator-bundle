@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -125,9 +125,9 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
         }
 
         if ($this->container->has('HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory')) {
-            $useEncore = (bool) $context->getConfiguration()['synPrintUseCustomEncoreEntries'] ?? false;
+            $useEncore = (bool) $context->getConfiguration()['synPdfCreatorUseCustomEncoreEntries'] ?? false;
 
-            if ($useEncore && !empty(($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPrintCustomEncoreEntries'], true))))) {
+            if ($useEncore && !empty(($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPdfCreatorCustomEncoreEntries'], true))))) {
                 $collection = $this->container->get(EntrypointCollectionFactory::class)->createCollection($entrypoints);
                 $template->stylesheets = $this->container->get(TemplateAssetGenerator::class)->linkTags($collection);
                 $template->headJavaScript = $this->container->get(TemplateAssetGenerator::class)->headScriptTags($collection);
