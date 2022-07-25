@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -17,18 +17,15 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('huh_pdf_creator');
-
-        $rootNode
+        $treeBuilder = new TreeBuilder('huh_pdf_creator');
+        $treeBuilder->getRootNode()
             ->children()
                 ->booleanNode('enable_contao_article_pdf_syndication')
                     ->defaultFalse()
                     ->info('Set to true to use this bundle functionality in the contao article syndication.')
                 ->end()
             ->end()
-        ;
-        $rootNode->children()
+            ->children()
                 ->arrayNode('configurations')
                     ->info('PDF creator configurations')
                     ->useAttributeAsKey('title')
