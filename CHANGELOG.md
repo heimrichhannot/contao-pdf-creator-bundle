@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2022-07-26
+- Added: filePath option to configuration for pdf file output type ([#4])
+- Added: margins and font options to yaml configuration ([#4])
+- Added: PdfGeneratorContext override config property ([#4])
+- Changed: minimum contao version is now 4.9 ([#4])
+- Changed: minimum pdf creator version is now 0.4 ([#4])
+- Changed: removed utils bundle dependency ([#4])
+- Changed: removed utils bundle dependency ([#4])
+- Fixed: symfony 5 related issues ([#4])
+- Fixed: missing php dependency ([#4])
+
 ## [0.3.2] - 2022-03-10
 - Changed: updated configuration documentation
 - Fixed: used print encore entries instead of own encore entries in syndication type
@@ -36,4 +47,5 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.1.0] - 2021-02-26
 Initial release
 
+[#4]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/4
 [#3]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/3
