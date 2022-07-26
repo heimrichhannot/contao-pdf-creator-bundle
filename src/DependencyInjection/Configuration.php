@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -17,18 +17,15 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('huh_pdf_creator');
-
-        $rootNode
+        $treeBuilder = new TreeBuilder('huh_pdf_creator');
+        $treeBuilder->getRootNode()
             ->children()
                 ->booleanNode('enable_contao_article_pdf_syndication')
                     ->defaultFalse()
                     ->info('Set to true to use this bundle functionality in the contao article syndication.')
                 ->end()
             ->end()
-        ;
-        $rootNode->children()
+            ->children()
                 ->arrayNode('configurations')
                     ->info('PDF creator configurations')
                     ->useAttributeAsKey('title')
@@ -47,6 +44,14 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue('%%title%%.pdf')
                                 ->info('Set a file name for the generated pdf files. You can use the %title% placeholder to use the title of the content to export in the file name.')
                                 ->end()
+                            ->scalarNode('file_path')
+                                ->info(
+                                    'The path to the folder where the generated files should be stored. '.
+                                    'Only used if output_mode is AbstractPdfCreator::OUTPUT_MODE_FILE. '.
+                                    'Path must be relative to the project path.'
+                                )
+                                ->example('files/export/pdf')
+                                ->end()
                             ->enumNode('orientation')
                                 ->values([AbstractPdfCreator::ORIENTATION_PORTRAIT, AbstractPdfCreator::ORIENTATION_LANDSCAPE])
                                 ->defaultValue(AbstractPdfCreator::ORIENTATION_PORTRAIT)
@@ -61,6 +66,25 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue('A4')
                                 ->info('Set a page format. This could be a standardized format like A3, A4, A5 or Legal, otherwise you can specify the format in millimeter (width x height, seperated by comma, for example 180,210).')
                                 ->end()
+                            ->arrayNode('margins')
+                                ->children()
+                                    ->scalarNode('top')->info('Relative path from project to font file.')->end()
+                                    ->scalarNode('left')->info('Name of the font family')->end()
+                                    ->scalarNode('bottom')->info('Font style')->end()
+                                    ->scalarNode('weight')->info('Font weight')->end()
+                                    ->enumNode('unit')->defaultValue('mm')->values(['mm'])->end()
+                                ->end()
+                            ->end()
+                            ->arrayNode('fonts')
+                                ->arrayPrototype()
+                                    ->children()
+                                        ->scalarNode('path')->info('Relative path from project to font file.')->end()
+                                        ->scalarNode('family')->info('Name of the font family')->end()
+                                        ->scalarNode('style')->info('Font style')->end()
+                                        ->scalarNode('weight')->info('Font weight')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
                             ->scalarNode('base_template')
                                 ->info('Set a pdf template (also known as master template), which will be the base template for the generated pdf files. Must be a path relative to the contao web root.')
                                 ->example('files/media/news/news_base_template.pdf')

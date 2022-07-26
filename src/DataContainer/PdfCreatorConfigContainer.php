@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -10,6 +10,7 @@ namespace Heimrichhannot\PdfCreatorBundle\DataContainer;
 
 use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use Contao\Image;
@@ -24,32 +25,22 @@ use HeimrichHannot\PdfCreator\Exception\MissingDependenciesException;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
 use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundException;
 use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
-use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
-use HeimrichHannot\UtilsBundle\Model\ModelUtil;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PdfCreatorConfigContainer
 {
-    /**
-     * @var ContainerUtil
-     */
-    protected $containerUtil;
-    /**
-     * @var ModelUtil
-     */
-    protected $modelUtil;
-    /**
-     * @var array
-     */
-    protected $bundleConfig;
+    private array      $bundleConfig;
+    private RequestStack $requestStack;
+    private ScopeMatcher $scopeMatcher;
 
     /**
      * PdfCreatorConfigContainer constructor.
      */
-    public function __construct(ContainerUtil $containerUtil, ModelUtil $modelUtil, array $bundleConfig)
+    public function __construct(array $bundleConfig, RequestStack $requestStack, ScopeMatcher $scopeMatcher)
     {
-        $this->containerUtil = $containerUtil;
-        $this->modelUtil = $modelUtil;
         $this->bundleConfig = $bundleConfig;
+        $this->requestStack = $requestStack;
+        $this->scopeMatcher = $scopeMatcher;
     }
 
     public function onLabelCallback($row, $label, $dc, $args): array
@@ -67,11 +58,11 @@ class PdfCreatorConfigContainer
 
     public function onLoadCallback($dc): void
     {
-        if (!$dc || !$this->containerUtil->isBackend() || 'edit' != Input::get('act')) {
+        if (!$dc || !$this->scopeMatcher->isBackendRequest($this->requestStack->getCurrentRequest()) || 'edit' != Input::get('act')) {
             return;
         }
         /** @var PdfCreatorConfigModel|null $config */
-        $config = $this->modelUtil->findModelInstanceByPk(PdfCreatorConfigModel::getTable(), $dc->id);
+        $config = PdfCreatorConfigModel::findByPk($dc->id);
 
         if (!$config) {
             return;

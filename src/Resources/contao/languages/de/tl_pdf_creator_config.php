@@ -1,10 +1,15 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
+
+use HeimrichHannot\PdfCreator\AbstractPdfCreator;
+use HeimrichHannot\PdfCreator\Concrete\DompdfCreator;
+use HeimrichHannot\PdfCreator\Concrete\MpdfCreator;
+use HeimrichHannot\PdfCreator\Concrete\TcpdfCreator;
 
 $lang = &$GLOBALS['TL_LANG']['tl_pdf_creator_config'];
 
@@ -30,24 +35,24 @@ $lang['title'] = ['Name', 'Geben Sie einen Namen für die Konfiguration ein.'];
 $lang['type'] = [
     0 => 'PDF-Bibliothek',
     1 => 'Wählen Sie eine Bibliothek aus, welche zum Rendern der PDF-Dateien verwendet werden soll.',
-    \HeimrichHannot\PdfCreator\Concrete\DompdfCreator::getType() => 'Dompdf',
-    \HeimrichHannot\PdfCreator\Concrete\MpdfCreator::getType() => 'mPDF',
-    \HeimrichHannot\PdfCreator\Concrete\TcpdfCreator::getType() => 'TCPDF',
+    DompdfCreator::getType() => 'Dompdf',
+    MpdfCreator::getType() => 'mPDF',
+    TcpdfCreator::getType() => 'TCPDF',
 ];
 $lang['filename'] = ['Dateiname', 'Geben Sie einen Dateinamen für die zu erzeugenden PDF-Dateien an. Sie können den Platzhalter %title% verwenden, um den Titel des zu exportierenden Inhaltes im Dateinamen zu erhalten.'];
 $lang['orientation'] = [
     0 => 'Seiten-Orientierung',
     1 => 'Wählen Sie die Seitenorientierung aus.',
-    \HeimrichHannot\PdfCreator\AbstractPdfCreator::ORIENTATION_LANDSCAPE => 'Querformat',
-    \HeimrichHannot\PdfCreator\AbstractPdfCreator::ORIENTATION_PORTRAIT => 'Hochformat',
+    AbstractPdfCreator::ORIENTATION_LANDSCAPE => 'Querformat',
+    AbstractPdfCreator::ORIENTATION_PORTRAIT => 'Hochformat',
 ];
 $lang['outputMode'] = [
     0 => 'Ausgabemodus',
     1 => 'Geben Sie an, wie die PDF ausgegeben werden soll.',
-    \HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator::OUTPUT_MODE_DOWNLOAD => 'Download',
-    \HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator::OUTPUT_MODE_FILE => 'Datei',
-    \HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator::OUTPUT_MODE_INLINE => 'Inline',
-    \HeimrichHannot\UtilsBundle\PdfCreator\AbstractPdfCreator::OUTPUT_MODE_STRING => 'String',
+    AbstractPdfCreator::OUTPUT_MODE_DOWNLOAD => 'Download',
+    AbstractPdfCreator::OUTPUT_MODE_FILE => 'Datei',
+    AbstractPdfCreator::OUTPUT_MODE_INLINE => 'Inline',
+    AbstractPdfCreator::OUTPUT_MODE_STRING => 'String',
 ];
 $lang['format'] = ['Seitenformat', 'Geben Sie das Seitenformat an. Dies kann ein standardisiertes Format wie A3,A4, A5 oder Legal sein oder eine Millimeter-Angabe (Breite x Höhe kommegetrennt, bspw. 180,210).'];
 $lang['fonts'] = [
@@ -60,3 +65,4 @@ $lang['fonts'] = [
 ];
 $lang['pageMargins'] = ['Seitenabstände', 'Geben Sie hier die Seitenabstände ein.'];
 $lang['masterTemplate'] = ['PDF-Template', 'Wählen Sie ein PDF-Template (Master-Template), welches als Grundlage für die erzeugten PDF-Dateien genutzt werden soll.'];
+$lang['filePath'] = ['Speicherort', 'Wählen Sie einen Ordner, wo die PDFs abgelegt werden sollen.'];

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -16,6 +16,7 @@ use HeimrichHannot\PdfCreator\AbstractPdfCreator;
 use HeimrichHannot\PdfCreator\BeforeCreateLibraryInstanceCallback;
 use HeimrichHannot\PdfCreator\BeforeOutputPdfCallback;
 use HeimrichHannot\PdfCreator\PdfCreatorFactory;
+use HeimrichHannot\PdfCreator\PdfCreatorResult;
 use Heimrichhannot\PdfCreatorBundle\Event\BeforeCreateLibraryInstanceEvent;
 use Heimrichhannot\PdfCreatorBundle\Event\BeforeOutputPdfCallbackEvent;
 use Heimrichhannot\PdfCreatorBundle\Exception\InvalidPdfGeneratorConfigurationException;
@@ -24,6 +25,7 @@ use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorNotFoundException;
 use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class PdfGenerator
@@ -61,9 +63,9 @@ class PdfGenerator
         $this->bundleConfig = $bundleConfig;
     }
 
-    public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): void
+    public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): PdfCreatorResult
     {
-        $configuration = $this->getConfiguration($configuration);
+        $configuration = $this->getConfiguration($configuration, $context);
 
         if (!$configuration) {
             throw new PdfCreatorConfigurationNotFoundException((int) $configuration);
@@ -83,15 +85,17 @@ class PdfGenerator
         $slugGenerator = new SlugGenerator();
 
         $type->setBeforeCreateInstanceCallback(function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatcher, $configuration) {
-            /* @noinspection PhpParamsInspection */
-            /* @noinspection PhpMethodParametersCountMismatchInspection */
-            $eventDispatcher->dispatch(BeforeCreateLibraryInstanceEvent::class, new BeforeCreateLibraryInstanceEvent($callback, $configuration));
+            $eventDispatcher->dispatch(
+                new BeforeCreateLibraryInstanceEvent($callback, $configuration),
+                BeforeCreateLibraryInstanceEvent::class
+            );
         });
 
         $type->setBeforeOutputPdfCallback(function (BeforeOutputPdfCallback $callback) use ($eventDispatcher, $configuration) {
-            /* @noinspection PhpParamsInspection */
-            /* @noinspection PhpMethodParametersCountMismatchInspection */
-            $eventDispatcher->dispatch(BeforeOutputPdfCallbackEvent::class, new BeforeOutputPdfCallbackEvent($callback, $configuration));
+            $eventDispatcher->dispatch(
+                new BeforeOutputPdfCallbackEvent($callback, $configuration),
+                BeforeOutputPdfCallbackEvent::class
+            );
         });
 
         $filename = str_replace(
@@ -106,6 +110,23 @@ class PdfGenerator
         $type->setOutputMode($configuration->outputMode);
 
         $type->setTempPath($this->kernel->getCacheDir().\DIRECTORY_SEPARATOR.'huh_pdf_creator');
+
+        if ($configuration->filePath && Validator::isUuid($configuration->filePath)) {
+            $file = FilesModel::findByUuid($configuration->filePath);
+
+            if ($file) {
+                $configuration->filePath = $file->path;
+            }
+        }
+
+        if ($configuration->filePath) {
+            $folder = $this->kernel->getProjectDir().\DIRECTORY_SEPARATOR.$configuration->filePath;
+
+            if (!(new Filesystem())->exists($folder)) {
+                (new Filesystem())->mkdir($folder);
+            }
+            $type->setFolder($folder);
+        }
 
         $formatSize = explode(',', $configuration->format);
 
@@ -151,11 +172,13 @@ class PdfGenerator
 
         $type->setHtmlContent($htmlContent);
 
-        $type->render();
+        return $type->render();
     }
 
-    public function getConfiguration(string $configuration): ?PdfCreatorConfigModel
+    public function getConfiguration(string $configuration, PdfGeneratorContext $context): ?PdfCreatorConfigModel
     {
+        $configurationModel = null;
+
         if (is_numeric($configuration)) {
             $configurationModel = PdfCreatorConfigModel::findByPk($configuration);
         } else {
@@ -167,6 +190,12 @@ class PdfGenerator
             }
         }
 
-        return $configurationModel ?? null;
+        if ($configurationModel && !empty($context->getOverrideConfiguration())) {
+            foreach ($context->getOverrideConfiguration() as $key => $value) {
+                $configurationModel->{$key} = $value;
+            }
+        }
+
+        return $configurationModel;
     }
 }
