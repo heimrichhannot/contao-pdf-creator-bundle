@@ -1,13 +1,14 @@
 <?php
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
+use HeimrichHannot\PdfCreator\AbstractPdfCreator;
+use HeimrichHannot\PdfCreator\Concrete\MpdfCreator;
 use Heimrichhannot\PdfCreatorBundle\DataContainer\PdfCreatorConfigContainer;
-use HeimrichHannot\UtilsBundle\PdfCreator\Concrete\MpdfCreator;
 
 $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
     'config' => [
@@ -68,7 +69,11 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
         ],
     ],
     'palettes' => [
+        '__selector__' => ['outputMode'],
         'default' => '{type_legend},title,type;{file_legend},filename,outputMode;{page_legend},orientation,format',
+    ],
+    'subpalettes' => [
+        'outputMode_'.AbstractPdfCreator::OUTPUT_MODE_FILE => 'filePath',
     ],
     'fields' => [
         'id' => [
@@ -125,8 +130,8 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
             'filter' => true,
             'sorting' => true,
             'options' => [
-                \HeimrichHannot\PdfCreator\AbstractPdfCreator::ORIENTATION_PORTRAIT,
-                \HeimrichHannot\PdfCreator\AbstractPdfCreator::ORIENTATION_LANDSCAPE,
+                AbstractPdfCreator::ORIENTATION_PORTRAIT,
+                AbstractPdfCreator::ORIENTATION_LANDSCAPE,
             ],
             'reference' => $GLOBALS['TL_LANG']['tl_pdf_creator_config']['orientation'],
             'eval' => [
@@ -149,8 +154,14 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
                 'includeBlankOption' => false,
                 'tl_class' => 'w50',
                 'mandatory' => true,
+                'submitOnChange' => true,
             ],
             'sql' => "varchar(16) NOT NULL default ''",
+        ],
+        'filePath' => [
+            'inputType' => 'fileTree',
+            'eval' => ['fieldType' => 'radio', 'tl_class' => 'clr', 'mandatory' => true],
+            'sql' => 'binary(16) NULL',
         ],
         'format' => [
             'label' => &$GLOBALS['TL_LANG']['tl_pdf_creator_config']['format'],

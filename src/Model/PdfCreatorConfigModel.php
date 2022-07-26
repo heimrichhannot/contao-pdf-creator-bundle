@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * Copyright (c) 2021 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -21,6 +21,7 @@ use function Symfony\Component\String\u;
  * @property string $filename
  * @property string $orientation
  * @property string $outputMode
+ * @property string $filePath
  * @property string $format
  * @property string $fonts
  * @property string $pageMargins
