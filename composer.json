@@ -26,9 +26,9 @@
         "contao/core-bundle": "^4.9",
         "heimrichhannot/contao-multi-column-editor-bundle": "^2.12",
         "heimrichhannot/pdf-creator": "^0.4",
-        "heimrichhannot/contao-utils-bundle": "^2.188",
         "psr/log": "^1.0",
-        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0"
+        "symfony/event-dispatcher-contracts": "^1.0 || ^2.0 || ^3.0",
+        "symfony/filesystem": "^4.4 || ^5.4"
     },
     "conflict": {
         "heimrichhannot/contao-encore-bundle": "<1.10.0"
