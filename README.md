@@ -94,7 +94,9 @@ huh_pdf_creator:
 
 ### Add pdf creator to your bundle
 
-1. Use `PdfGenerator::generate()` to generate a pdf with your content. It expects an id of an PDF Creator config, html content and an `PdfContext` instance.
+1. Use `PdfGenerator::generate()` to generate a pdf with your content. 
+   It expects an id of an PDF Creator config, html content and an `PdfContext` instance
+   and returns a [`PdfCreatorResult`](https://heimrichhannot.github.io/pdf-creator/classes/HeimrichHannot-PdfCreator-PdfCreatorResult.html) instance.
 
     ```php
     use Heimrichhannot\PdfCreatorBundle\Generator\PdfGenerator;
@@ -106,12 +108,13 @@ huh_pdf_creator:
         
         public function __invoke(string $content, array $row): void {
             $context = new PdfGeneratorContext($row['title']);
-            $this->pdfGenerator->generate($content, $row['pdfConfiguration'], $context);
+            $result = $this->pdfGenerator->generate($content, $row['pdfConfiguration'], $context);
+            
         }
     }
     ```
 
-1. Use `DcaGenerator` to add an PDF Creator config field to your dca.
+3. Use `DcaGenerator` to add an PDF Creator config field to your dca.
 
     ```php
     use Contao\CoreBundle\DataContainer\PaletteManipulator;
@@ -162,6 +165,9 @@ huh_pdf_creator:
       # Set a file name for the generated pdf files. You can use the %title% placeholder to use the title of the content to export in the file name.
       filename:             '%%title%%.pdf'
 
+      # The path to the folder where the generated files should be stored. Only used if output_mode is AbstractPdfCreator::OUTPUT_MODE_FILE. Path must be relative to the project path.
+      file_path:            ~ # Example: files/export/pdf
+
       # Set page orientation.
       orientation:          portrait # One of "portrait"; "landscape"
 
@@ -170,6 +176,36 @@ huh_pdf_creator:
 
       # Set a page format. This could be a standardized format like A3, A4, A5 or Legal, otherwise you can specify the format in millimeter (width x height, seperated by comma, for example 180,210).
       format:               A4
+      margins:
+
+        # Relative path from project to font file.
+        top:                  ~
+
+        # Name of the font family
+        left:                 ~
+
+        # Font style
+        bottom:               ~
+
+        # Font weight
+        right:                ~
+        unit:                 mm # One of "mm"
+      fonts:
+
+        # Prototype
+        -
+
+          # Relative path from project to font file.
+          path:                 ~
+
+          # Name of the font family
+          family:               ~
+
+          # Font style
+          style:                ~
+
+          # Font weight
+          weight:               ~
 
       # Set a pdf template (also known as master template), which will be the base template for the generated pdf files. Must be a path relative to the contao web root.
       base_template:        ~ # Example: files/media/news/news_base_template.pdf

@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2022-07-27
+- Fixed: page margin right config option name
+- Fixed: font support from yaml configuration
+
 ## [0.4.0] - 2022-07-26
 - Added: filePath option to configuration for pdf file output type ([#4])
 - Added: margins and font options to yaml configuration ([#4])

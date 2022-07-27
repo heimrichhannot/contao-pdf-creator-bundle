@@ -41,16 +41,40 @@ class PdfCreatorConfigModel extends Model
         $model->title = $data['name'] ?: $title;
 
         foreach ($data as $key => $value) {
-            if (\in_array($key, ['title', 'name', 'id'])) {
-                continue;
-            }
+            switch ($key) {
+                case 'title':
+                case 'name':
+                case 'id':
+                    break;
 
-            if ('base_template' === $key) {
-                $model->masterTemplate = $value;
+                case 'base_template':
+                    $model->masterTemplate = $value;
 
-                continue;
+                    break;
+
+                case 'margins':
+                    $model->pageMargins = $value;
+
+                    break;
+
+                case 'fonts':
+                    $fonts = [];
+
+                    foreach ($value as $fontEntry) {
+                        $fonts[] = [
+                            'filepath' => $fontEntry['path'],
+                            'family' => $fontEntry['family'],
+                            'style' => $fontEntry['style'],
+                            'weight' => $fontEntry['weight'],
+                        ];
+                    }
+                    $model->fonts = $fonts;
+
+                    break;
+
+                default:
+                    $model->{u($key)->camel()} = $value;
             }
-            $model->{u($key)->camel()} = $value;
         }
 
         return $model;

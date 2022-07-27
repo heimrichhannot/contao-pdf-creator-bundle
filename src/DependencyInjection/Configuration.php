@@ -71,7 +71,7 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('top')->info('Relative path from project to font file.')->end()
                                     ->scalarNode('left')->info('Name of the font family')->end()
                                     ->scalarNode('bottom')->info('Font style')->end()
-                                    ->scalarNode('weight')->info('Font weight')->end()
+                                    ->scalarNode('right')->info('Font weight')->end()
                                     ->enumNode('unit')->defaultValue('mm')->values(['mm'])->end()
                                 ->end()
                             ->end()
