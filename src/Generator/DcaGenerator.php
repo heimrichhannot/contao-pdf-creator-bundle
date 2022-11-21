@@ -35,45 +35,32 @@ class DcaGenerator
      */
     public function getPdfCreatorConfigSelectFieldConfig(array $options = []): array
     {
-        if (!isset($options['label']) || !\is_array($options['label'])) {
+        $options = array_merge([
+            'includeBlankOption' => false,
+            'chosen' => true,
+            'exclude' => true,
+            'tl_class' => 'w50 wizard',
+            'label' => null,
+        ], $options);
+
+        if (!$options['label']) {
             $label = [
                 $this->translator->trans('huh.pdf_creator.fields.pdf_creator_config.name'),
                 $this->translator->trans('huh.pdf_creator.fields.pdf_creator_config.description'),
             ];
-        } else {
-            $label = $options['label'];
-        }
-
-        $includeBlankOption = false;
-
-        if (isset($options['includeBlankOption']) || \is_bool($options['includeBlankOption'])) {
-            $includeBlankOption = $options['includeBlankOption'];
-        }
-
-        $choosen = true;
-
-        if (isset($options['chosen']) || \is_bool($options['chosen'])) {
-            $choosen = $options['chosen'];
-        }
-
-        $exclude = true;
-
-        if (isset($options['exclude']) || \is_bool($options['exclude'])) {
-            $exclude = $options['exclude'];
-        }
-
-        $tlClass = 'w50 wizard';
-
-        if (isset($options['tl_class']) || \is_string($options['tl_class'])) {
-            $tlClass = $options['tl_class'];
         }
 
         return [
             'label' => $label,
             'inputType' => 'select',
             'options_callback' => [PdfCreatorConfigContainer::class, 'getPdfCreatorConfigOptions'],
-            'exclude' => $exclude,
-            'eval' => ['includeBlankOption' => $includeBlankOption, 'chosen' => $choosen, 'tl_class' => $tlClass, 'submitOnChange' => true],
+            'exclude' => $options['exclude'],
+            'eval' => [
+                'includeBlankOption' => (bool) $options['includeBlankOption'],
+                'chosen' => (bool) $options['chosen'],
+                'tl_class' => $options['tl_class'],
+                'submitOnChange' => true,
+            ],
             'wizard' => [[PdfCreatorConfigContainer::class, 'onPdfCreatorConfigWizardCallback']],
             'sql' => "varchar(32) NOT NULL default ''",
         ];

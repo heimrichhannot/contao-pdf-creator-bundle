@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2] - 2022-11-21
+- Fixed: warnings under php 8
+
 ## [0.4.1] - 2022-07-27
 - Fixed: page margin right config option name
 - Fixed: font support from yaml configuration
