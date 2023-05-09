@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -84,19 +84,31 @@ class PdfGenerator
         $eventDispatcher = $this->eventDispatcher;
         $slugGenerator = new SlugGenerator();
 
-        $type->setBeforeCreateInstanceCallback(function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatcher, $configuration) {
-            $eventDispatcher->dispatch(
-                new BeforeCreateLibraryInstanceEvent($callback, $configuration),
-                BeforeCreateLibraryInstanceEvent::class
-            );
-        });
+        $type->setBeforeCreateInstanceCallback(
+            function (BeforeCreateLibraryInstanceCallback $callback) use ($eventDispatcher, $configuration, $context) {
+                $event = $eventDispatcher->dispatch(
+                    new BeforeCreateLibraryInstanceEvent($callback, $configuration),
+                    BeforeCreateLibraryInstanceEvent::class
+                );
 
-        $type->setBeforeOutputPdfCallback(function (BeforeOutputPdfCallback $callback) use ($eventDispatcher, $configuration) {
-            $eventDispatcher->dispatch(
-                new BeforeOutputPdfCallbackEvent($callback, $configuration),
-                BeforeOutputPdfCallbackEvent::class
-            );
-        });
+                if (null !== $context->getBeforeCreateLibraryInstanceCallbackListener()) {
+                    $context->getBeforeCreateLibraryInstanceCallbackListener()($event);
+                }
+            }
+        );
+
+        $type->setBeforeOutputPdfCallback(
+            function (BeforeOutputPdfCallback $callback) use ($eventDispatcher, $configuration, $context) {
+                $event = $eventDispatcher->dispatch(
+                    new BeforeOutputPdfCallbackEvent($callback, $configuration),
+                    BeforeOutputPdfCallbackEvent::class
+                );
+
+                if (null !== $context->getBeforeOutputPdfCallbackListener()) {
+                    $context->getBeforeOutputPdfCallbackListener()($event);
+                }
+            }
+        );
 
         $filename = str_replace(
             ['%title%'],

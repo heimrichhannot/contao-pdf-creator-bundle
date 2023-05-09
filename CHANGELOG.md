@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.4] - 2023-05-09
+- Added: allow passing listener through pdf generator context
+- Fixed: warning
+
 ## [0.4.3] - 2023-05-05
 - Changed: allow psr/log 2 and 3
 

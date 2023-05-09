@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2022 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -13,6 +13,14 @@ class PdfGeneratorContext
     protected string $title;
 
     private array $overrideConfiguration = [];
+    /**
+     * @var callable|null
+     */
+    private $beforeOutputPdfCallbackListener = null;
+    /**
+     * @var callable|null
+     */
+    private $beforeCreateLibraryInstanceCallbackListener = null;
 
     /**
      * PdfGeneratorContext constructor.
@@ -38,5 +46,25 @@ class PdfGeneratorContext
     public function setOverrideConfiguration(array $overrideConfiguration): void
     {
         $this->overrideConfiguration = $overrideConfiguration;
+    }
+
+    public function setBeforeCreateLibraryInstanceCallbackListener(callable $listener): void
+    {
+        $this->beforeCreateLibraryInstanceCallbackListener = $listener;
+    }
+
+    public function setBeforeOutputPdfCallbackListener(callable $listener): void
+    {
+        $this->beforeOutputPdfCallbackListener = $listener;
+    }
+
+    public function getBeforeOutputPdfCallbackListener(): ?callable
+    {
+        return $this->beforeOutputPdfCallbackListener;
+    }
+
+    public function getBeforeCreateLibraryInstanceCallbackListener(): ?callable
+    {
+        return $this->beforeCreateLibraryInstanceCallbackListener;
     }
 }
