@@ -187,7 +187,7 @@ class PdfGenerator
         return $type->render();
     }
 
-    public function getConfiguration(string $configuration, PdfGeneratorContext $context): ?PdfCreatorConfigModel
+    public function getConfiguration(string $configuration, PdfGeneratorContext $context = null): ?PdfCreatorConfigModel
     {
         $configurationModel = null;
 
@@ -202,7 +202,7 @@ class PdfGenerator
             }
         }
 
-        if ($configurationModel && !empty($context->getOverrideConfiguration())) {
+        if ($configurationModel && $context && !empty($context->getOverrideConfiguration())) {
             foreach ($context->getOverrideConfiguration() as $key => $value) {
                 $configurationModel->{$key} = $value;
             }
