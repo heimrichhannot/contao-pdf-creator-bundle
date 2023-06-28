@@ -7,17 +7,10 @@ services:
       $bundleConfig: '%huh_pdf_creator%'
 
   Heimrichhannot\PdfCreatorBundle\:
-    resource: '../../{DataContainer,Generator}/*'
+    resource: '../../{DataContainer,EventListener,Generator}/*'
     exclude: '../../Generator/{PdfGeneratorContext.php}'
-    public: true
-
-  Heimrichhannot\PdfCreatorBundle\EventListener\Contao\:
-    resource: '../../EventListener/Contao/*'
+    autoconfigure: true
     public: true
 
   Heimrichhannot\PdfCreatorBundle\SyndicationType\PdfCreatorSyndicationType:
     tags: ['huh.syndication_type.type']
-
-  Heimrichhannot\PdfCreatorBundle\EventSubscriber\:
-    resource: '../../EventSubscriber/*'
-    autoconfigure: true

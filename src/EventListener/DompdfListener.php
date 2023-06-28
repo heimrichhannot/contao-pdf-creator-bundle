@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\PdfCreatorBundle\EventSubscriber;
+namespace Heimrichhannot\PdfCreatorBundle\EventListener;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -14,6 +14,7 @@ use HeimrichHannot\PdfCreator\Concrete\DompdfCreator;
 use Heimrichhannot\PdfCreatorBundle\Event\BeforeCreateLibraryInstanceEvent;
 use Heimrichhannot\PdfCreatorBundle\Event\BeforeOutputPdfCallbackEvent;
 use Heimrichhannot\PdfCreatorBundle\Exception\InvalidPdfGeneratorConfigurationException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -22,19 +23,18 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * Class DompdfSubscriber
  */
-class DompdfSubscriber implements EventSubscriberInterface
+class DompdfListener implements EventSubscriberInterface
 {
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
+    protected KernelInterface $kernel;
+    private ParameterBagInterface $parameterBag;
 
     /**
      * PdfCreatorSubscriber constructor.
      */
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, ParameterBagInterface $parameterBag)
     {
         $this->kernel = $kernel;
+        $this->parameterBag = $parameterBag;
     }
 
     public function addDompdfLogging(BeforeCreateLibraryInstanceEvent $event): void
@@ -63,7 +63,18 @@ class DompdfSubscriber implements EventSubscriberInterface
             $path = parse_url($configuration->baseUrl);
             $instance->setProtocol($path['scheme'].'://');
             $instance->setBaseHost($path['host']);
-            $instance->setBasePath($path['path'] ?: '/');
+            $instance->setBasePath($path['path'] ?? '/');
+        }
+
+        if ($this->parameterBag->has('huh_pdf_creator')) {
+            $config = $this->parameterBag->get('huh_pdf_creator');
+            if (isset($config['allowed_paths'])) {
+                $chroot = $instance->getOptions()->getChroot();
+                foreach ($config['allowed_paths'] as $path) {
+                    $chroot[] = $this->kernel->getProjectDir().'/'.ltrim($path, '/');
+                }
+                $instance->getOptions()->setChroot($chroot);
+            }
         }
 
         if ($configuration->credentials) {
