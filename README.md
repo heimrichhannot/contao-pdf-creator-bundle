@@ -28,7 +28,7 @@ This bundle adds a generic way to configure the creation of pdf files, reuse the
 
 ### Yaml pdf configuration
 
-To reuse configurations or customize them on different environments, you can set pdf creator configs in your configuration files. You'll find all possible options in the configuration reference.
+To reuse configurations or customize them on different environments, you can set pdf creator configs in your configuration files. You'll find all possible options in the [configuration reference](docs/config-reference.md).
 
 Example: 
 ```yaml
