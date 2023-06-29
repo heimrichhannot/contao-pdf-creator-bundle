@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.6] - 2023-06-29
+- Added: allowed_paths configuration option for dompdf chroot setting [(#6)]
+- Added: default chroot paths for dompdf [(#6)]
+- Changed: some internal refactoring [(#6)]
+- Fixed: missing dependencies
+
 ## [0.4.5] - 2023-06-02
 - Fixed: exception in syndication typ
 
@@ -64,5 +70,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.1.0] - 2021-02-26
 Initial release
 
-[#4]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/4
 [#3]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/3
+[#4]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/4
+[#6]: https://github.com/heimrichhannot/contao-pdf-creator-bundle/pull/6
