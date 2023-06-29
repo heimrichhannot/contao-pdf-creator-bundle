@@ -6,7 +6,7 @@
  * @license LGPL-3.0-or-later
  */
 
-namespace Heimrichhannot\PdfCreatorBundle\EventSubscriber;
+namespace Heimrichhannot\PdfCreatorBundle\EventListener;
 
 use Heimrichhannot\PdfCreatorBundle\Generator\DcaGenerator;
 use Heimrichhannot\PdfCreatorBundle\SyndicationType\PdfCreatorSyndicationType;
@@ -14,24 +14,15 @@ use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeFieldsEvent;
 use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypePaletteSelectorsEvent;
 use HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeSubpalettesEvent;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SyndicationTypeDcaProviderSubscriber implements EventSubscriberInterface, ServiceSubscriberInterface
+class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, ServiceSubscriberInterface
 {
-    /**
-     * @var DcaGenerator
-     */
-    protected $dcaGenerator;
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
+    protected DcaGenerator $dcaGenerator;
+    protected TranslatorInterface $translator;
 
     /**
      * SyndicationTypeDcaProviderSubscriber constructor.
