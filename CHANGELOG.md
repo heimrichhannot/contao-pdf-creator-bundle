@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.7] - 2024-06-05
+- Fixed: Symfony 5 namespaces in SyndicationType
+
 ## [0.4.6] - 2023-06-29
 - Added: allowed_paths configuration option for dompdf chroot setting [(#6)]
 - Added: default chroot paths for dompdf [(#6)]
