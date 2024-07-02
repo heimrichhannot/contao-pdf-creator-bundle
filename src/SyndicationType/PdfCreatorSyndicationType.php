@@ -51,8 +51,13 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
      */
     protected $container;
 
-    public function __construct(ContainerInterface $container, SyndicationLinkFactory $linkFactory, TranslatorInterface $translator, RequestStack $requestStack, PdfGenerator $pdfGenerator)
-    {
+    public function __construct(
+        ContainerInterface     $container,
+        SyndicationLinkFactory $linkFactory,
+        TranslatorInterface    $translator,
+        RequestStack           $requestStack,
+        PdfGenerator           $pdfGenerator
+    ) {
         $this->linkFactory = $linkFactory;
         $this->translator = $translator;
         $this->requestStack = $requestStack;
