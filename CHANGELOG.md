@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.8] - 2024-07-02
+- Fixed: invalid service error PdfCreatorSyndicationType
+
 ## [0.4.7] - 2024-06-05
 - Fixed: Symfony 5 namespaces in SyndicationType
 
