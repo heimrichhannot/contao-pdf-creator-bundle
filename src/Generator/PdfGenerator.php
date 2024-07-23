@@ -24,43 +24,31 @@ use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorConfigurationNotFoundExc
 use Heimrichhannot\PdfCreatorBundle\Exception\PdfCreatorNotFoundException;
 use Heimrichhannot\PdfCreatorBundle\Model\PdfCreatorConfigModel;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class PdfGenerator
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-    /**
-     * @var string
-     */
-    protected $projectFolder;
-    /**
-     * @var LoggerInterface
-     */
-    protected $pdfInstanceLog;
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-    /**
-     * @var array
-     */
-    protected $bundleConfig;
+    protected EventDispatcherInterface $eventDispatcher;
+    protected string $projectFolder;
+    protected LoggerInterface $pdfInstanceLog;
+    protected KernelInterface $kernel;
+    protected array $bundleConfig;
+    private ParameterBagInterface $parameterBag;
 
     /**
      * PdfGenerator constructor.
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, string $projectFolder, LoggerInterface $pdfInstanceLog, KernelInterface $kernel, array $bundleConfig)
+    public function __construct(EventDispatcherInterface $eventDispatcher, string $projectFolder, LoggerInterface $pdfInstanceLog, KernelInterface $kernel, array $bundleConfig, ParameterBagInterface $parameterBag)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->projectFolder = $projectFolder;
         $this->pdfInstanceLog = $pdfInstanceLog;
         $this->kernel = $kernel;
         $this->bundleConfig = $bundleConfig;
+        $this->parameterBag = $parameterBag;
     }
 
     public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): PdfCreatorResult
@@ -177,8 +165,8 @@ class PdfGenerator
                 $filePath = $configuration->masterTemplate;
             }
 
-            if ($filePath && file_exists($this->projectFolder.\DIRECTORY_SEPARATOR.'web/'.$filePath)) {
-                $type->setTemplateFilePath($this->projectFolder.\DIRECTORY_SEPARATOR.'web/'.$filePath);
+            if ($filePath && file_exists($this->parameterBag->get('contao.web_dir').DIRECTORY_SEPARATOR.$filePath)) {
+                $type->setTemplateFilePath($this->parameterBag->get('contao.web_dir').DIRECTORY_SEPARATOR.$filePath);
             }
         }
 
