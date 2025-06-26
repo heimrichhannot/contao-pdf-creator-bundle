@@ -6,13 +6,14 @@
  * @license LGPL-3.0-or-later
  */
 
+use Contao\DC_Table;
 use HeimrichHannot\PdfCreator\AbstractPdfCreator;
 use HeimrichHannot\PdfCreator\Concrete\MpdfCreator;
 use Heimrichhannot\PdfCreatorBundle\DataContainer\PdfCreatorConfigContainer;
 
 $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'enableVersioning' => true,
         'sql' => [
             'keys' => [
