@@ -13,14 +13,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DcaGenerator
 {
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
 
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
@@ -44,14 +39,14 @@ class DcaGenerator
         ], $options);
 
         if (!$options['label']) {
-            $label = [
+            $options['label'] = [
                 $this->translator->trans('huh.pdf_creator.fields.pdf_creator_config.name'),
                 $this->translator->trans('huh.pdf_creator.fields.pdf_creator_config.description'),
             ];
         }
 
         return [
-            'label' => $label,
+            'label' => $options['label'],
             'inputType' => 'select',
             'options_callback' => [PdfCreatorConfigContainer::class, 'getPdfCreatorConfigOptions'],
             'exclude' => $options['exclude'],

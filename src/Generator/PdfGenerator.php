@@ -146,6 +146,7 @@ class PdfGenerator
         }
 
         if ($configuration->masterTemplate) {
+            $filePath = null;
             if (Validator::isUuid($configuration->masterTemplate)) {
                 $file = FilesModel::findByUuid($configuration->masterTemplate);
 

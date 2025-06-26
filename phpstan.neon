@@ -6,5 +6,8 @@ parameters:
 #  universalObjectCratesClasses:
 #    - Contao\Model
 #    - Contao\Template
+  ignoreErrors:
+    -
+      identifier: class.notFound
 includes:
   - vendor/phpstan/phpstan-symfony/extension.neon

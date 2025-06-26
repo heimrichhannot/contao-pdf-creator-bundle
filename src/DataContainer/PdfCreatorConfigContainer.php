@@ -30,10 +30,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PdfCreatorConfigContainer
 {
-    /**
-     * PdfCreatorConfigContainer constructor.
-     */
-    public function __construct(private array $bundleConfig, private readonly RequestStack $requestStack, private readonly ScopeMatcher $scopeMatcher)
+    public function __construct(
+        private array $bundleConfig,
+        private readonly RequestStack $requestStack,
+        private readonly ScopeMatcher $scopeMatcher
+    )
     {
     }
 
@@ -64,6 +65,9 @@ class PdfCreatorConfigContainer
 
         try {
             $type = PdfCreatorFactory::createInstance($config->type);
+            if (null === $type) {
+                throw new \InvalidArgumentException("Unknown pdf library type $type");
+            }
             $type::isUsable(true);
         } catch (MissingDependenciesException $e) {
             $message = $GLOBALS['TL_LANG']['ERR']['huhPdfCreatorMissingDependencies'] ?: 'Missing dependencies: %s';

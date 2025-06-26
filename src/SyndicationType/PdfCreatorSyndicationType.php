@@ -28,41 +28,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements ServiceSubscriberInterface
 {
-    const PARAM = 'pdf';
-
-    /**
-     * @var SyndicationLinkFactory
-     */
-    protected $linkFactory;
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-    /**
-     * @var PdfGenerator
-     */
-    protected $pdfGenerator;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    const string PARAM = 'pdf';
 
     public function __construct(
-        ContainerInterface     $container,
-        SyndicationLinkFactory $linkFactory,
-        TranslatorInterface    $translator,
-        RequestStack           $requestStack,
-        PdfGenerator           $pdfGenerator
+        private ContainerInterface     $container,
+        private SyndicationLinkFactory $linkFactory,
+        private TranslatorInterface    $translator,
+        private RequestStack           $requestStack,
+        private PdfGenerator           $pdfGenerator
     ) {
-        $this->linkFactory = $linkFactory;
-        $this->translator = $translator;
-        $this->requestStack = $requestStack;
-        $this->pdfGenerator = $pdfGenerator;
-        $this->container = $container;
     }
 
     public static function getType(): string
@@ -147,7 +121,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
         );
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             '?HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory',
