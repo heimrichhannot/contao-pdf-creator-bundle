@@ -31,24 +31,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class PdfGenerator
 {
-    protected EventDispatcherInterface $eventDispatcher;
-    protected string $projectFolder;
-    protected LoggerInterface $pdfInstanceLog;
-    protected KernelInterface $kernel;
-    protected array $bundleConfig;
-    private ParameterBagInterface $parameterBag;
-
-    /**
-     * PdfGenerator constructor.
-     */
-    public function __construct(EventDispatcherInterface $eventDispatcher, string $projectFolder, LoggerInterface $pdfInstanceLog, KernelInterface $kernel, array $bundleConfig, ParameterBagInterface $parameterBag)
+    public function __construct(
+        protected EventDispatcherInterface $eventDispatcher,
+        protected string                   $projectFolder,
+        protected LoggerInterface          $pdfInstanceLog,
+        protected KernelInterface          $kernel,
+        protected array                    $bundleConfig,
+        private ParameterBagInterface      $parameterBag
+    )
     {
-        $this->eventDispatcher = $eventDispatcher;
-        $this->projectFolder = $projectFolder;
-        $this->pdfInstanceLog = $pdfInstanceLog;
-        $this->kernel = $kernel;
-        $this->bundleConfig = $bundleConfig;
-        $this->parameterBag = $parameterBag;
     }
 
     public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): PdfCreatorResult
@@ -175,7 +166,7 @@ class PdfGenerator
         return $type->render();
     }
 
-    public function getConfiguration(string $configuration, PdfGeneratorContext $context = null): ?PdfCreatorConfigModel
+    public function getConfiguration(string $configuration, ?PdfGeneratorContext $context = null): ?PdfCreatorConfigModel
     {
         $configurationModel = null;
 

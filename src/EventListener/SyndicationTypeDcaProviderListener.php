@@ -34,7 +34,7 @@ class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, Se
         $this->container = $container;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             'HeimrichHannot\SyndicationTypeBundle\Event\AddSyndicationTypeFieldsEvent' => 'onAddFields',
@@ -43,7 +43,7 @@ class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, Se
         ];
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             '?HeimrichHannot\EncoreBundle\Dca\DcaGenerator',
