@@ -7,8 +7,8 @@ services:
       $bundleConfig: '%huh_pdf_creator%'
 
   Heimrichhannot\PdfCreatorBundle\:
-    resource: '../../{DataContainer,EventListener,Generator,SyndicationType}/*'
-    exclude: '../../Generator/{PdfGeneratorContext.php}'
+    resource: '../src/{DataContainer,EventListener,Generator,SyndicationType}/*'
+    exclude: '../src/Generator/{PdfGeneratorContext.php}'
     autoconfigure: true
     public: true
 

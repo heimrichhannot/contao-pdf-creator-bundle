@@ -36,6 +36,6 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
 
     public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
     {
-        $loader->load('@HeimrichHannotPdfCreatorBundle/Resources/config/config.yml');
+        $loader->load('@HeimrichHannotPdfCreatorBundle/config/config.yaml');
     }
 }

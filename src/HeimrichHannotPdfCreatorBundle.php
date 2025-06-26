@@ -23,4 +23,9 @@ class HeimrichHannotPdfCreatorBundle extends Bundle
     {
         return new HeimrichHannotPdfCreatorExtension();
     }
+
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
 }
