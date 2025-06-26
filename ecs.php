@@ -35,4 +35,7 @@ return ECSConfig::configure()
         MethodChainingIndentationFixer::class => [
             '*/DependencyInjection/Configuration.php',
         ],
+        \PhpCsFixer\Fixer\ClassNotation\NoNullPropertyInitializationFixer::class => [
+            '*/Generator/PdfGeneratorContext.php',
+        ]
     ]);

@@ -8,11 +8,9 @@
 
 namespace Heimrichhannot\PdfCreatorBundle\Exception;
 
-use Throwable;
-
 class PdfCreatorNotFoundException extends \Exception
 {
-    public function __construct(string $type, $overrideMesssage = '', $code = 0, Throwable $previous = null)
+    public function __construct(string $type, $overrideMesssage = '', $code = 0, ?\Throwable $previous = null)
     {
         if (empty($overrideMesssage)) {
             $overrideMesssage = 'A pdf creator of type %type% could not be found!';

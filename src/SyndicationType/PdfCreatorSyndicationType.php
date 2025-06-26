@@ -28,14 +28,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements ServiceSubscriberInterface
 {
-    const string PARAM = 'pdf';
+    public const PARAM = 'pdf';
 
     public function __construct(
-        private ContainerInterface     $container,
+        private ContainerInterface $container,
         private SyndicationLinkFactory $linkFactory,
-        private TranslatorInterface    $translator,
-        private RequestStack           $requestStack,
-        private PdfGenerator           $pdfGenerator
+        private TranslatorInterface $translator,
+        private RequestStack $requestStack,
+        private PdfGenerator $pdfGenerator,
     ) {
     }
 
@@ -106,7 +106,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
         if ($this->container->has('HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory')) {
             $useEncore = (bool) $context->getConfiguration()['synPdfCreatorUseCustomEncoreEntries'] ?? false;
 
-            if ($useEncore && !empty(($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPdfCreatorCustomEncoreEntries'], true))))) {
+            if ($useEncore && !empty($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPdfCreatorCustomEncoreEntries'], true)))) {
                 $collection = $this->container->get(EntrypointCollectionFactory::class)->createCollection($entrypoints);
                 $template->stylesheets = $this->container->get(TemplateAssetGenerator::class)->linkTags($collection);
                 $template->headJavaScript = $this->container->get(TemplateAssetGenerator::class)->headScriptTags($collection);

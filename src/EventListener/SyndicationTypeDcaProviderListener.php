@@ -20,11 +20,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, ServiceSubscriberInterface
 {
-    /**
-     * SyndicationTypeDcaProviderSubscriber constructor.
-     */
-    public function __construct(protected ContainerInterface $container, protected DcaGenerator $dcaGenerator, protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected ContainerInterface $container,
+        protected DcaGenerator $dcaGenerator,
+        protected TranslatorInterface $translator,
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -66,7 +66,7 @@ class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, Se
                     $event->getSubpalettes()[PdfCreatorSyndicationType::getActivationField()]
                 )
             );
-//            $event->addSubpalettes('synUsePrintTemplate', $event->getSubpalettes()['synUsePrintTemplate'].',synPrintUseCustomEncoreEntries');
+            //            $event->addSubpalettes('synUsePrintTemplate', $event->getSubpalettes()['synUsePrintTemplate'].',synPrintUseCustomEncoreEntries');
         }
     }
 

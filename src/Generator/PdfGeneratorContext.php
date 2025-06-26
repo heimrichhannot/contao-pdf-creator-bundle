@@ -20,11 +20,9 @@ class PdfGeneratorContext
      */
     private $beforeCreateLibraryInstanceCallbackListener = null;
 
-    /**
-     * PdfGeneratorContext constructor.
-     */
-    public function __construct(protected string $title)
-    {
+    public function __construct(
+        protected string $title,
+    ) {
     }
 
     public function getTitle(): string

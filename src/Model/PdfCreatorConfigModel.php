@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Heimrichhannot\PdfCreatorBundle\Model;
 
 use Contao\Model;
+
 use function Symfony\Component\String\u;
 
 /**

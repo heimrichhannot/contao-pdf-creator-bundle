@@ -23,9 +23,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
  */
 class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
-    /**
-     * @return array
-     */
     public function getBundles(ParserInterface $parser): array
     {
         return [

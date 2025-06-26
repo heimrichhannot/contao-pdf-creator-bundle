@@ -33,13 +33,12 @@ class PdfGenerator
 {
     public function __construct(
         protected EventDispatcherInterface $eventDispatcher,
-        protected string                   $projectFolder,
-        protected LoggerInterface          $pdfInstanceLog,
-        protected KernelInterface          $kernel,
-        protected array                    $bundleConfig,
-        private readonly ParameterBagInterface      $parameterBag
-    )
-    {
+        protected string $projectFolder,
+        protected LoggerInterface $pdfInstanceLog,
+        protected KernelInterface $kernel,
+        protected array $bundleConfig,
+        private readonly ParameterBagInterface $parameterBag,
+    ) {
     }
 
     public function generate(string $htmlContent, string $configuration, PdfGeneratorContext $context): PdfCreatorResult
@@ -100,7 +99,7 @@ class PdfGenerator
 
         $type->setOutputMode($configuration->outputMode);
 
-        $type->setTempPath($this->kernel->getCacheDir().\DIRECTORY_SEPARATOR.'huh_pdf_creator');
+        $type->setTempPath($this->kernel->getCacheDir() . \DIRECTORY_SEPARATOR . 'huh_pdf_creator');
 
         if ($configuration->filePath && Validator::isUuid($configuration->filePath)) {
             $file = FilesModel::findByUuid($configuration->filePath);
@@ -111,7 +110,7 @@ class PdfGenerator
         }
 
         if ($configuration->filePath) {
-            $folder = $this->kernel->getProjectDir().\DIRECTORY_SEPARATOR.$configuration->filePath;
+            $folder = $this->kernel->getProjectDir() . \DIRECTORY_SEPARATOR . $configuration->filePath;
 
             if (!(new Filesystem())->exists($folder)) {
                 (new Filesystem())->mkdir($folder);
@@ -133,8 +132,8 @@ class PdfGenerator
 
         if (!empty(array_filter($fonts))) {
             foreach ($fonts as $font) {
-                if (file_exists($this->projectFolder.\DIRECTORY_SEPARATOR.$font['filepath'])) {
-                    $type->addFont($this->projectFolder.\DIRECTORY_SEPARATOR.$font['filepath'], $font['family'], $font['style'], $font['weight']);
+                if (file_exists($this->projectFolder . \DIRECTORY_SEPARATOR . $font['filepath'])) {
+                    $type->addFont($this->projectFolder . \DIRECTORY_SEPARATOR . $font['filepath'], $font['family'], $font['style'], $font['weight']);
                 }
             }
         }
@@ -157,8 +156,8 @@ class PdfGenerator
                 $filePath = $configuration->masterTemplate;
             }
 
-            if ($filePath && file_exists($this->parameterBag->get('contao.web_dir').DIRECTORY_SEPARATOR.$filePath)) {
-                $type->setTemplateFilePath($this->parameterBag->get('contao.web_dir').DIRECTORY_SEPARATOR.$filePath);
+            if ($filePath && file_exists($this->parameterBag->get('contao.web_dir') . DIRECTORY_SEPARATOR . $filePath)) {
+                $type->setTemplateFilePath($this->parameterBag->get('contao.web_dir') . DIRECTORY_SEPARATOR . $filePath);
             }
         }
 

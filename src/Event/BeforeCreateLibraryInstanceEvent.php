@@ -23,9 +23,6 @@ class BeforeCreateLibraryInstanceEvent extends Event
      */
     protected $configuration;
 
-    /**
-     * BeforeCreateLibraryInstanceEvent constructor.
-     */
     public function __construct(BeforeCreateLibraryInstanceCallback $beforeCreateLibraryInstanceCallback, PdfCreatorConfigModel $configuration)
     {
         $this->beforeCreateLibraryInstanceCallback = $beforeCreateLibraryInstanceCallback;

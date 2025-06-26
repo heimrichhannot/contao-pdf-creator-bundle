@@ -13,9 +13,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DcaGenerator
 {
-
-    public function __construct(protected TranslatorInterface $translator)
-    {
+    public function __construct(
+        protected TranslatorInterface $translator,
+    ) {
     }
 
     /**

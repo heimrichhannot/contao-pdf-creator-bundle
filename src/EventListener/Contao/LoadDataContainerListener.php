@@ -21,9 +21,6 @@ class LoadDataContainerListener
      */
     protected $dcaGenerator;
 
-    /**
-     * LoadDataContainerListener constructor.
-     */
     public function __construct(array $bundleConfig, DcaGenerator $dcaGenerator)
     {
         $this->bundleConfig = $bundleConfig;
