@@ -20,18 +20,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, ServiceSubscriberInterface
 {
-    protected ContainerInterface $container;
-    protected DcaGenerator $dcaGenerator;
-    protected TranslatorInterface $translator;
-
     /**
      * SyndicationTypeDcaProviderSubscriber constructor.
      */
-    public function __construct(ContainerInterface $container, DcaGenerator $dcaGenerator, TranslatorInterface $translator)
+    public function __construct(protected ContainerInterface $container, protected DcaGenerator $dcaGenerator, protected TranslatorInterface $translator)
     {
-        $this->dcaGenerator = $dcaGenerator;
-        $this->translator = $translator;
-        $this->container = $container;
     }
 
     public static function getSubscribedEvents(): array
@@ -61,7 +54,7 @@ class SyndicationTypeDcaProviderListener implements EventSubscriberInterface, Se
         }
     }
 
-    public function onAddSubpalettes(AddSyndicationTypeSubpalettesEvent $event)
+    public function onAddSubpalettes(AddSyndicationTypeSubpalettesEvent $event): void
     {
         if ($this->container->has('HeimrichHannot\EncoreBundle\Dca\DcaGenerator')) {
             $event->addSubpalettes('synPdfCreatorUseCustomEncoreEntries', 'synPdfCreatorCustomEncoreEntries');

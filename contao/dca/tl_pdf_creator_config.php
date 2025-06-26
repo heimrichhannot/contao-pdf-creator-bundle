@@ -5,7 +5,7 @@
  *
  * @license LGPL-3.0-or-later
  */
-
+use Contao\DataContainer;
 use Contao\DC_Table;
 use HeimrichHannot\PdfCreator\AbstractPdfCreator;
 use HeimrichHannot\PdfCreator\Concrete\MpdfCreator;
@@ -26,9 +26,9 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
     ],
     'list' => [
         'sorting' => [
-            'mode' => 2,
+            'mode' => DataContainer::MODE_SORTABLE,
             'fields' => ['title'],
-            'flag' => 1,
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;sort,search,limit',
         ],
         'label' => [
@@ -90,7 +90,7 @@ $GLOBALS['TL_DCA']['tl_pdf_creator_config'] = [
             'search' => true,
             'filter' => false,
             'sorting' => true,
-            'flag' => 1,
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],

@@ -8,6 +8,7 @@
 
 namespace Heimrichhannot\PdfCreatorBundle\DataContainer;
 
+use Contao\System;
 use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\Routing\ScopeMatcher;
@@ -29,18 +30,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PdfCreatorConfigContainer
 {
-    private array      $bundleConfig;
-    private RequestStack $requestStack;
-    private ScopeMatcher $scopeMatcher;
-
     /**
      * PdfCreatorConfigContainer constructor.
      */
-    public function __construct(array $bundleConfig, RequestStack $requestStack, ScopeMatcher $scopeMatcher)
+    public function __construct(private array $bundleConfig, private readonly RequestStack $requestStack, private readonly ScopeMatcher $scopeMatcher)
     {
-        $this->bundleConfig = $bundleConfig;
-        $this->requestStack = $requestStack;
-        $this->scopeMatcher = $scopeMatcher;
     }
 
     public function onLabelCallback($row, $label, $dc, $args): array
@@ -153,7 +147,7 @@ class PdfCreatorConfigContainer
     {
         Controller::loadLanguageFile('tl_pdf_creator_config');
 
-        return (!$dc || !is_numeric($dc->value) || $dc->value < 1) ? '' : ' <a href="contao?do=pdf_creator_config&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1]), $dc->value).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1], $dc->value))).'\',\'url\':this.href});return false">'.Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][0]).'</a>';
+        return (!$dc || !is_numeric($dc->value) || $dc->value < 1) ? '' : ' <a href="contao?do=pdf_creator_config&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue().'" title="'.sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1]), $dc->value).'" onclick="Backend.openModalIframe({\'title\':\''.StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][1], $dc->value))).'\',\'url\':this.href});return false">'.Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_pdf_creator_config']['edit'][0]).'</a>';
     }
 
     public function getPdfCreatorConfigOptions(): array

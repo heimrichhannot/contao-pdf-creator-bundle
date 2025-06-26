@@ -91,7 +91,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
 
     public function shouldExport(SyndicationContext $context): bool
     {
-        return $context->getData()['id'] == $this->requestStack->getMasterRequest()->get(static::PARAM);
+        return $context->getData()['id'] == $this->requestStack->getMainRequest()->get(static::PARAM);
     }
 
     public function export(SyndicationContext $context): void

@@ -37,7 +37,7 @@ class PdfGenerator
         protected LoggerInterface          $pdfInstanceLog,
         protected KernelInterface          $kernel,
         protected array                    $bundleConfig,
-        private ParameterBagInterface      $parameterBag
+        private readonly ParameterBagInterface      $parameterBag
     )
     {
     }

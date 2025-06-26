@@ -40,7 +40,7 @@ class LoadDataContainerListener
         }
     }
 
-    public function prepareArticleTable(string $table)
+    public function prepareArticleTable(string $table): void
     {
         if (!isset($this->bundleConfig['enable_contao_article_pdf_syndication']) || true !== $this->bundleConfig['enable_contao_article_pdf_syndication']) {
             return;

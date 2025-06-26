@@ -25,16 +25,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class DompdfListener implements EventSubscriberInterface
 {
-    protected KernelInterface $kernel;
-    private ParameterBagInterface $parameterBag;
-
     /**
      * PdfCreatorSubscriber constructor.
      */
-    public function __construct(KernelInterface $kernel, ParameterBagInterface $parameterBag)
+    public function __construct(protected KernelInterface $kernel, private readonly ParameterBagInterface $parameterBag)
     {
-        $this->kernel = $kernel;
-        $this->parameterBag = $parameterBag;
     }
 
     public function addDompdfLogging(BeforeCreateLibraryInstanceEvent $event): void
@@ -71,7 +66,7 @@ class DompdfListener implements EventSubscriberInterface
             if (isset($config['allowed_paths'])) {
                 $chroot = $instance->getOptions()->getChroot();
                 foreach ($config['allowed_paths'] as $path) {
-                    $chroot[] = $this->kernel->getProjectDir().'/'.ltrim($path, '/');
+                    $chroot[] = $this->kernel->getProjectDir().'/'.ltrim((string) $path, '/');
                 }
                 $instance->getOptions()->setChroot($chroot);
             }

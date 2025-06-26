@@ -44,11 +44,11 @@
         "contao-manager-plugin": "Heimrichhannot\\PdfCreatorBundle\\ContaoManager\\Plugin"
     },
     "require-dev": {
-        "rector/rector": "*",
+        "rector/rector": "^2.1",
         "contao/contao-rector": "dev-main",
-        "symplify/easy-coding-standard": "*",
-        "phpstan/phpstan": "*",
-        "phpstan/phpstan-symfony": "*",
-        "contao/manager-plugin": "*"
+        "symplify/easy-coding-standard": "^12.5",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-symfony": "^2.0",
+        "contao/manager-plugin": "^2.13"
     }
 }
