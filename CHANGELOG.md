@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.10] - 2025-08-26
+- Changed: added contao 5 support
+- Changed: dropped contao 4.9 support
+
 ## [0.4.9] - 2024-07-23
 - Fixed: issues with master templates and public folder
 
