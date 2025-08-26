@@ -23,10 +23,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
  */
 class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
-    /**
-     * @return array
-     */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(HeimrichHannotPdfCreatorBundle::class)
@@ -34,8 +31,8 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
         ];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig): void
     {
-        $loader->load('@HeimrichHannotPdfCreatorBundle/Resources/config/config.yml');
+        $loader->load('@HeimrichHannotPdfCreatorBundle/config/config.yaml');
     }
 }

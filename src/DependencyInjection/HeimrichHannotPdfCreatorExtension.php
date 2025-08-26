@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 class HeimrichHannotPdfCreatorExtension extends Extension
 {
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'huh_pdf_creator';
     }
@@ -32,10 +32,10 @@ class HeimrichHannotPdfCreatorExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__ . '/../../config')
         );
 
-        $loader->load('services.yml');
+        $loader->load('services.yaml');
 
         $configuration = new Configuration();
         $bundleConfig = $this->processConfiguration($configuration, $configs);

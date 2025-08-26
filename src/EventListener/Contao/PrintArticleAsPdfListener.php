@@ -43,7 +43,7 @@ class PrintArticleAsPdfListener
 
         try {
             $this->pdfGenerator->generate($articleContent, $module->pdfConfiguration, $context);
-        } catch (InvalidPdfGeneratorConfigurationException | PdfCreatorConfigurationNotFoundException | PdfCreatorNotFoundException | MissingDependenciesException $e) {
+        } catch (InvalidPdfGeneratorConfigurationException|PdfCreatorConfigurationNotFoundException|PdfCreatorNotFoundException|MissingDependenciesException) {
             throw new PageNotFoundException('Pdf files could not be generated due invalid configuration.');
         }
     }

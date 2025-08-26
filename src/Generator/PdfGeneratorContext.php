@@ -10,8 +10,6 @@ namespace Heimrichhannot\PdfCreatorBundle\Generator;
 
 class PdfGeneratorContext
 {
-    protected string $title;
-
     private array $overrideConfiguration = [];
     /**
      * @var callable|null
@@ -22,12 +20,9 @@ class PdfGeneratorContext
      */
     private $beforeCreateLibraryInstanceCallbackListener = null;
 
-    /**
-     * PdfGeneratorContext constructor.
-     */
-    public function __construct(string $title)
-    {
-        $this->title = $title;
+    public function __construct(
+        protected string $title,
+    ) {
     }
 
     public function getTitle(): string

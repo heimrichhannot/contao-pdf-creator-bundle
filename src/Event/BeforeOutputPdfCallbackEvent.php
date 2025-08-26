@@ -23,9 +23,6 @@ class BeforeOutputPdfCallbackEvent extends Event
      */
     protected $configuration;
 
-    /**
-     * BeforeOutputPdfCallbackEvent constructor.
-     */
     public function __construct(BeforeOutputPdfCallback $beforeOutputPdfCallback, PdfCreatorConfigModel $configuration)
     {
         $this->beforeOutputPdfCallback = $beforeOutputPdfCallback;

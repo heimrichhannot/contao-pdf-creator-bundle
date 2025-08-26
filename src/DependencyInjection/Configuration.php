@@ -15,7 +15,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('huh_pdf_creator');
         $treeBuilder->getRootNode()
@@ -60,8 +60,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->scalarNode('file_path')
                         ->info(
-                            'The path to the folder where the generated files should be stored. '.
-                            'Only used if output_mode is AbstractPdfCreator::OUTPUT_MODE_FILE. '.
+                            'The path to the folder where the generated files should be stored. ' .
+                            'Only used if output_mode is AbstractPdfCreator::OUTPUT_MODE_FILE. ' .
                             'Path must be relative to the project path.'
                         )
                         ->example('files/export/pdf')

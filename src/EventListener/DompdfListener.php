@@ -20,21 +20,13 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Add additional configuration for dompdf library.
- *
- * Class DompdfSubscriber
  */
 class DompdfListener implements EventSubscriberInterface
 {
-    protected KernelInterface $kernel;
-    private ParameterBagInterface $parameterBag;
-
-    /**
-     * PdfCreatorSubscriber constructor.
-     */
-    public function __construct(KernelInterface $kernel, ParameterBagInterface $parameterBag)
-    {
-        $this->kernel = $kernel;
-        $this->parameterBag = $parameterBag;
+    public function __construct(
+        protected KernelInterface $kernel,
+        private readonly ParameterBagInterface $parameterBag,
+    ) {
     }
 
     public function addDompdfLogging(BeforeCreateLibraryInstanceEvent $event): void
@@ -42,7 +34,7 @@ class DompdfListener implements EventSubscriberInterface
         if ($this->kernel->isDebug() && DompdfCreator::getType() === $event->getBeforeCreateLibraryInstanceCallback()->getType()) {
             /** @var Options $options */
             $options = $event->getBeforeCreateLibraryInstanceCallback()->getConstructorParameters()['options'];
-            $options->setLogOutputFile($this->kernel->getLogDir().'/huh_pdf_creator_dompdf.log');
+            $options->setLogOutputFile($this->kernel->getLogDir() . '/huh_pdf_creator_dompdf.log');
         }
     }
 
@@ -57,11 +49,11 @@ class DompdfListener implements EventSubscriberInterface
 
         if ($configuration->baseUrl) {
             if (false === filter_var($configuration->baseUrl, FILTER_VALIDATE_URL)) {
-                throw new InvalidPdfGeneratorConfigurationException("Configuration with title '".$configuration->title."' and id '".$configuration->id."' has an invalid base_url (".$configuration->baseUrl.').');
+                throw new InvalidPdfGeneratorConfigurationException("Configuration with title '" . $configuration->title . "' and id '" . $configuration->id . "' has an invalid base_url (" . $configuration->baseUrl . ').');
             }
 
             $path = parse_url($configuration->baseUrl);
-            $instance->setProtocol($path['scheme'].'://');
+            $instance->setProtocol($path['scheme'] . '://');
             $instance->setBaseHost($path['host']);
             $instance->setBasePath($path['path'] ?? '/');
         }
@@ -71,7 +63,7 @@ class DompdfListener implements EventSubscriberInterface
             if (isset($config['allowed_paths'])) {
                 $chroot = $instance->getOptions()->getChroot();
                 foreach ($config['allowed_paths'] as $path) {
-                    $chroot[] = $this->kernel->getProjectDir().'/'.ltrim($path, '/');
+                    $chroot[] = $this->kernel->getProjectDir() . '/' . ltrim((string) $path, '/');
                 }
                 $instance->getOptions()->setChroot($chroot);
             }

@@ -28,41 +28,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements ServiceSubscriberInterface
 {
-    const PARAM = 'pdf';
-
-    /**
-     * @var SyndicationLinkFactory
-     */
-    protected $linkFactory;
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-    /**
-     * @var PdfGenerator
-     */
-    protected $pdfGenerator;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    public const PARAM = 'pdf';
 
     public function __construct(
-        ContainerInterface     $container,
-        SyndicationLinkFactory $linkFactory,
-        TranslatorInterface    $translator,
-        RequestStack           $requestStack,
-        PdfGenerator           $pdfGenerator
+        private ContainerInterface $container,
+        private SyndicationLinkFactory $linkFactory,
+        private TranslatorInterface $translator,
+        private RequestStack $requestStack,
+        private PdfGenerator $pdfGenerator,
     ) {
-        $this->linkFactory = $linkFactory;
-        $this->translator = $translator;
-        $this->requestStack = $requestStack;
-        $this->pdfGenerator = $pdfGenerator;
-        $this->container = $container;
     }
 
     public static function getType(): string
@@ -91,7 +65,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
 
     public function shouldExport(SyndicationContext $context): bool
     {
-        return $context->getData()['id'] == $this->requestStack->getMasterRequest()->get(static::PARAM);
+        return $context->getData()['id'] == $this->requestStack->getMainRequest()->get(static::PARAM);
     }
 
     public function export(SyndicationContext $context): void
@@ -132,7 +106,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
         if ($this->container->has('HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory')) {
             $useEncore = (bool) $context->getConfiguration()['synPdfCreatorUseCustomEncoreEntries'] ?? false;
 
-            if ($useEncore && !empty(($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPdfCreatorCustomEncoreEntries'], true))))) {
+            if ($useEncore && !empty($entrypoints = array_filter(StringUtil::deserialize($context->getConfiguration()['synPdfCreatorCustomEncoreEntries'], true)))) {
                 $collection = $this->container->get(EntrypointCollectionFactory::class)->createCollection($entrypoints);
                 $template->stylesheets = $this->container->get(TemplateAssetGenerator::class)->linkTags($collection);
                 $template->headJavaScript = $this->container->get(TemplateAssetGenerator::class)->headScriptTags($collection);
@@ -147,7 +121,7 @@ class PdfCreatorSyndicationType extends AbstractExportSyndicationType implements
         );
     }
 
-    public static function getSubscribedServices()
+    public static function getSubscribedServices(): array
     {
         return [
             '?HeimrichHannot\EncoreBundle\Asset\EntrypointCollectionFactory',
